@@ -13,7 +13,7 @@ Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
 - Make soft delete field configurable
 - Make Belay work with auto-incrementing ids
 - Non-existing relationships will have to be saved before the model
-- when deleting an attribute, reset it to its default value, rather than removing it completely
+- When deleting an attribute, reset it to its default value, rather than removing it completely
 
 ## Installation
 
@@ -123,7 +123,8 @@ Here's [a great article by Michel Weststrate
 
 Belay uses [JSON Schema](https://json-schema.org/) for some basic validation on the model. It will somewhat intelligently merge the [JSON:API schema](http://jsonapi.org/schema) with whatever you hand to it.
 
-./models/schemas/category.json
+`./models/schemas/category.json`
+
 ```json
 {
   "definitions": {
@@ -146,7 +147,8 @@ Belay uses [JSON Schema](https://json-schema.org/) for some basic validation on 
 }
 ```
 
-./models/Category.js
+`./models/Category.js`
+
 ```js
 import { Model } from '@shabushabu/belay'
 import schema from './schemas/category'
@@ -157,10 +159,6 @@ export class Category extends Model {
   }
 }
 ```
-
-## Builder
-
-
 
 ## Model
 
@@ -220,6 +218,8 @@ And finally, `relationships` lets us define `HasOne` and `HasMany` relationships
 
 ### Creating
 
+There are two ways to instantiate a new Belay model. By passing in nothing, aka undefined, or an object of attributes that is non-valid JSON:API format.
+
 ```js
 const page = new Page({
     title: 'Contact Us'
@@ -230,9 +230,9 @@ page.content = "Go on, we don't bite"
 const response = await page.create()
 ```
 
-There are two ways to instantiate a new Belay model. By passing in nothing, aka undefined, or an object of attributes that is non-valid JSON:API format.
-
 ### Updating
+
+When a valid JSON:API object is passed into a Belay model, then it assumes it came from the API and sets its flags accordingly. Any relationships within `includes` will also be hydrated, e.g. a `user` relationship will turn into a `User` model.
 
 ```js
 const validJsonApiResponse = { data: ... }
@@ -243,9 +243,9 @@ page.content = "Go on, we don't bite"
 const response = await page.update()
 ```
 
-When a valid JSON:API object is passed into a Belay model, then it assumes it came from the API and sets its flags accordingly. Any relationships within `includes` will also be hydrated, e.g. a `user` relationship will turn into a `User` model.
-
 ### Upserting
+
+Not sure why you wouldn't know where your data comes from, but the `createOrUpdate` method got your back!
 
 ```js
 const objectOfUnknownPedigree = { ... }
@@ -256,18 +256,16 @@ page.content = "Go on, we don't bite"
 const response = await page.createOrUpdate()
 ```
 
-Not sure why you wouldn't know where your data comes from, but the `createOrUpdate` method got your back!
-
 ### Deleting
+
+If the model attributes contain a `deletedAt` field and `deletedAt` is null, then Belay will set it the current date, indicating that the model has been soft deleted.
+If the `deletedAt` field is not null, however, then Belay will set the `wasDestroyed` flag to true.
 
 ```js
 const page = new Page({ data: ... })
 
 const response = await page.delete()
 ```
-
-If the model attributes contain a `deletedAt` field and `deletedAt` is null, then Belay will set it the current date, indicating that the model has been soft deleted.
-If the `deletedAt` field is not null, however, then Belay will set the `wasDestroyed` flag to true.
 
 ### Model Attributes & Relationships
 
@@ -285,7 +283,7 @@ page.category = new Category({ name: 'Boring' })
 
 The proxy first checks if the property is contained within the `attributes` of the model. If there isn't an attribute with the given key, then Belay checks the relationships.
 
-So, the above example would actually give us the following JSON:API representation:
+So, the above example would actually give us something like the following JSON:API representation:
 
 ```json
 {
@@ -371,13 +369,35 @@ Belay fires off a variety of events for most of its operations. Here's a full li
     * Fires when relationships have been auto-saved
     * Payload: `{ responses }`
 
+## Builder
+
+Any model can also be used statically. Under the hood `null` is passed to the model, indicating that we want to run a query.
+
+```js
+// get all pages
+const response = await Page.get()
+
+// get a single page
+const page = await Page.find('904754f0-7faa-4872-b7b8-2e2556d7a7bc')
+```
+
+Query parameters can also be passed to the builder:
+
+```js
+// GET /pages?filter[title]=Cool&include=user&&limit=10
+
+const response = await Page.where('title', 'Cool').include('user').limit(10).get()
+```
+
 ## Caveats
 
 This package uses [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) quite a bit, so if you only target modern browsers, like  Firefox, Chrome, Safari 10+ and Edge, then you're golden. Not so much if you have to support old and tired browsers like IE. There is a [polyfill](https://github.com/GoogleChrome/proxy-polyfill), but use at your own risk.
 
-This package is still young and while it is tested, there will probs be bugs. I will try to iron them out as I find them, but until there's a v1 release, use at your own risk. 
+Belay is still young and while it is tested, there will probs be bugs. I will try to iron them out as I find them, but until there's a v1 release, use at your own risk. 
 
 ## Tests
+
+Do read the tests themselves to find out more about Belay!
 
 ```
 $ yarn run test
