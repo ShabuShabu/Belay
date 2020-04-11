@@ -6,6 +6,15 @@
 
 Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
 
+## ToDo
+
+- Add http tests for the builder
+- Add http uri option and default back to jsonApiType
+- Make soft delete field configurable
+- Make Belay work with auto-incrementing ids
+- Non-existing relationships will have to be saved before the model
+- when deleting an attribute, reset it to its default value, rather than removing it completely
+
 ## Installation
 
 ```
@@ -17,10 +26,10 @@ $ yarn add @shabushabu/belay
 Set it up in an entry file:
 
 ```js
-import Vue from 'vue'
 import axios from 'axios'
 import { Model, Response, EventBus } from '@shabushabu/belay'
 import { Post, Category, Tag } from './Hierarchies'
+import Bus from './event-bus'
 
 axios.interceptors.response.use(
   data => new Response(data),
@@ -28,7 +37,7 @@ axios.interceptors.response.use(
 )
 
 Model.setAxios(axios)
-Model.setEventBus(new EventBus(new Vue()))
+Model.setEventBus(new EventBus(Bus))
 Model.setTypeMap({ 
   posts: Post, 
   categories: Category, 
@@ -61,6 +70,318 @@ export default ({ $axios, store }) => {
 
 ## Usage
 
+## Single Table Inheritance
+
+Belay supports [STI](https://en.wikipedia.org/wiki/Single_Table_Inheritance), so something like the following is possible:
+
+```js
+export class Vehicle extends Model {
+  static subTypeField () {
+    return 'data.attributes.subType'
+  }
+
+  static children () {
+    return {
+        car: Car,
+        bus: Bus
+    }
+  }
+}
+
+export class Car extends Vehicle {}
+
+export class Bus extends Vehicle {}
+```
+
+The above can lead to circular imports, though, so it's necessary to create a `Hierarchies.js` file.
+
+```js
+export * from './Vehicle'
+export * from './Car'
+export * from './Bus'
+```
+
+We then use this file to import our models, thus avoiding the issue:
+
+```js
+import { Car, Bus } from './Hierarchies'
+
+export class Vehicle extends Model {
+  static children () {
+    return {
+        car: Car,
+        bus: Bus
+    }
+  }
+}
+```
+
+Here's [a great article by Michel Weststrate
+](https://medium.com/visual-development/how-to-fix-nasty-circular-dependency-issues-once-and-for-all-in-javascript-typescript-a04c987cf0de) explaining things more in-depth
+
+## Schemas
+
+Belay uses [JSON Schema](https://json-schema.org/) for some basic validation on the model. It will somewhat intelligently merge the [JSON:API schema](http://jsonapi.org/schema) with whatever you hand to it.
+
+./models/schemas/category.json
+```json
+{
+  "definitions": {
+    "attributes": {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
+```
+
+./models/Category.js
+```js
+import { Model } from '@shabushabu/belay'
+import schema from './schemas/category'
+
+export class Category extends Model {
+  constructor (resource) {
+    super(resource, schema)
+  }
+}
+```
+
+## Builder
+
+
+
+## Model
+
+Here is an example of a model:
+
+```js
+import { Model, DateCast } from '@shabushabu/belay'
+import { Media, User, Category } from './Hierarchies'
+import schema from './schemas/page'
+
+export class Page extends Model {
+  constructor (resource) {
+    super(resource, schema)
+  }
+
+  static jsonApiType () {
+    return 'pages'
+  }
+
+  get attributes () {
+    return {
+      title: '',
+      content: '',
+      createdAt: null,
+      updatedAt: null,
+      deletedAt: null
+    }
+  }
+
+  get casts () {
+    return {
+      createdAt: new DateCast(),
+      updatedAt: new DateCast(),
+      deletedAt: new DateCast()
+    }
+  }
+
+  get relationships () {
+    return {
+      user: this.hasOne(User, 'user').readOnly(),
+      category: this.hasOne(Category, 'categories'),
+      media: this.hasOne(Media, 'media')
+    }
+  }
+}
+
+export default Page
+```
+
+`jsonApiType` must be set. This would be the `data.type` field on your API response. Belay also assumes that this is the base URI for HTTP requests.
+
+`attributes` lets us define any attributes and their default values.
+
+`casts` allows us to mutate any attributes. By default Belay ships with a `DateCast` and a `CollectionCast`, but custom casts can also be created, for example for a money value object.
+
+And finally, `relationships` lets us define `HasOne` and `HasMany` relationships. Belay also includes a flag to auto-update any relationships when the model is saved. This behaviour can be completely deactivated via `Model.autoSaveRelationships(false)`, but can also be set individually via the `readOnly` method on the relation.
+
+### Creating
+
+```js
+const page = new Page({
+    title: 'Contact Us'
+})
+
+page.content = "Go on, we don't bite"
+
+const response = await page.create()
+```
+
+There are two ways to instantiate a new Belay model. By passing in nothing, aka undefined, or an object of attributes that is non-valid JSON:API format.
+
+### Updating
+
+```js
+const validJsonApiResponse = { data: ... }
+const page = new Page(validJsonApiResponse)
+
+page.content = "Go on, we don't bite"
+
+const response = await page.update()
+```
+
+When a valid JSON:API object is passed into a Belay model, then it assumes it came from the API and sets its flags accordingly. Any relationships within `includes` will also be hydrated, e.g. a `user` relationship will turn into a `User` model.
+
+### Upserting
+
+```js
+const objectOfUnknownPedigree = { ... }
+const page = new Page(objectOfUnknownPedigree)
+
+page.content = "Go on, we don't bite"
+
+const response = await page.createOrUpdate()
+```
+
+Not sure why you wouldn't know where your data comes from, but the `createOrUpdate` method got your back!
+
+### Deleting
+
+```js
+const page = new Page({ data: ... })
+
+const response = await page.delete()
+```
+
+If the model attributes contain a `deletedAt` field and `deletedAt` is null, then Belay will set it the current date, indicating that the model has been soft deleted.
+If the `deletedAt` field is not null, however, then Belay will set the `wasDestroyed` flag to true.
+
+### Model Attributes & Relationships
+
+Belay makes quite heavy use of [Proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). 
+These allow us to do some nifty stuff with attributes and relationships without having to explicitly create this functionality on the model. 
+The idea behind Belay is that it always keeps an up-to-date reference of a JSON:API resource in the background. So, when we update a model property Belay actually sets the value of that property on that JSON:API resource.
+
+```js
+const page = new Page()
+
+page.title = 'Some title'
+page.content = 'Lorem what?'
+page.category = new Category({ name: 'Boring' })
+```
+
+The proxy first checks if the property is contained within the `attributes` of the model. If there isn't an attribute with the given key, then Belay checks the relationships.
+
+So, the above example would actually give us the following JSON:API representation:
+
+```json
+{
+    "data": {
+        "id": "904754f0-7faa-4872-b7b8-2e2556d7a7bc",
+        "type": "pages",
+        "attributes": {
+            "title": "Some title",
+            "content": "Lorem what?",
+            "createdAt": null,
+            "updatedAt": null,
+            "deletedAt": null
+        },
+        "relationships": {
+            "category": {
+                "data": {
+                    "type": "categories",
+                    "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                }
+            }
+        }
+    }
+}
+```
+
+Additionally, it's also possible to remove attributes and relationships like so:
+
+```js
+const page = new Page()
+
+delete page.title
+delete page.category
+```
+
+Relationships, especially `HasMany`, can also be set and removed another way:
+
+```js
+const page = new Page()
+
+// actual method on the model
+page.attach('media', media)
+// handled by the proxy
+page.attachMedia(media)
+
+// actual method on the model
+page.detach('media', media)
+// handled by the proxy
+page.detachMedia(media)
+```
+
+### Events
+
+Belay fires off a variety of events for most of its operations. Here's a full list:
+
+- **SAVED**
+    * Fires when a model was created and updated
+    * Payload: `{ response, model }`
+- **CREATED**
+    * Fires when a model was created
+    * Payload: `{ response, model }`
+- **UPDATED**
+    * Fires when a model was updated
+    * Payload: `{ response, model }`
+- **TRASHED**
+    * Fires when a model was trashed
+    * Payload: `{ response, model }`
+- **DESTROYED**
+    * Fires when a model was destroyed
+    * Payload: `{ response, model }`
+- **FETCHED**
+    * Fires when a model was retrieved from the API
+    * Payload: `{ response, model }`
+- **ATTACHED**
+    * Fires when a relationship was attached to a model
+    * Payload: `{ key, model, attached }`
+- **DETACHED**
+    * Fires when a relationship was detached to a model
+    * Payload: `{ key, model, detached }`
+- **COLLECTED**
+    * Fires when a collection was retrieved
+    * Payload: `{ response, collection }`
+- **RELATIONS_SAVED**s
+    * Fires when relationships have been auto-saved
+    * Payload: `{ responses }`
+
+## Caveats
+
+This package uses [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) quite a bit, so if you only target modern browsers, like  Firefox, Chrome, Safari 10+ and Edge, then you're golden. Not so much if you have to support old and tired browsers like IE. There is a [polyfill](https://github.com/GoogleChrome/proxy-polyfill), but use at your own risk.
+
+This package is still young and while it is tested, there will probs be bugs. I will try to iron them out as I find them, but until there's a v1 release, use at your own risk. 
+
+## Tests
+
+```
+$ yarn run test
+```
 
 ## Credits
 
