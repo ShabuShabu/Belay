@@ -38,12 +38,14 @@ axios.interceptors.response.use(
   error => Promise.reject(error)
 )
 
-Model.setAxios(axios)
-Model.setEventBus(new EventBus(Bus))
-Model.setTypeMap({ 
-  posts: Post, 
-  categories: Category, 
-  tags: Tag 
+Model.setConfig({
+  http: axios,
+  events: new EventBus(Bus),
+  typeMap: { 
+    posts: Post, 
+    categories: Category, 
+    tags: Tag 
+  }
 })
 ```
 
@@ -60,12 +62,14 @@ export default ({ $axios, store }) => {
   $axios.onResponse(data => new Response(data))
   store.$events = new Vue()
 
-  Model.setAxios($axios)
-  Model.setEventBus(new EventBus(store.$events))
-  Model.setTypeMap({ 
-    posts: Post, 
-    categories: Category, 
-    tags: Tag 
+  Model.setConfig({
+    http: $axios,
+    events: new EventBus(store.$events),
+    typeMap: { 
+      posts: Post, 
+      categories: Category, 
+      tags: Tag 
+    }
   })
 }
 ```

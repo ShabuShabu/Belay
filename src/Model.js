@@ -75,15 +75,15 @@ export class Model {
    * @private
    */
   _runSetupChecks () {
-    if (Model.$http === undefined) {
+    if (Model?.$config?.http === undefined) {
       throw Exception.axiosNotPresent()
     }
 
-    if (Model.$typeMap === undefined) {
+    if (Model?.$config?.typeMap === undefined) {
       throw Exception.typeMapNotPresent()
     }
 
-    if (Model.$events === undefined) {
+    if (Model?.$config?.events === undefined) {
       throw Exception.busNotPresent()
     }
 
@@ -95,8 +95,8 @@ export class Model {
       throw Exception.propertyDefaultsNotSet(this)
     }
 
-    if (Model.$autoSaveRelationships === undefined) {
-      Model.autoSaveRelationships()
+    if (Model?.$config?.autoSaveRelationships === undefined) {
+      Model.$config.autoSaveRelationships = true
     }
   }
 
@@ -185,11 +185,11 @@ export class Model {
    * @returns {*}
    */
   static entityForType (type) {
-    if (!has(Model.$typeMap, type)) {
+    if (!has(Model.$config.typeMap, type)) {
       throw Exception.modelMappingMissing(type)
     }
 
-    return Model.$typeMap[type]
+    return Model.$config.typeMap[type]
   }
 
   /**
@@ -245,7 +245,7 @@ export class Model {
    * @returns {*}
    */
   get http () {
-    return Model.$http
+    return Model.$config.http
   }
 
   /**
@@ -253,7 +253,7 @@ export class Model {
    * @returns {*}
    */
   get events () {
-    return Model.$events
+    return Model.$config.events
   }
 
   /**
@@ -799,7 +799,7 @@ export class Model {
    * @private
    */
   async _autoSaveRelationships () {
-    if (!Model.$autoSaveRelationships) {
+    if (!Model.$config.autoSaveRelationships) {
       return Promise.resolve([])
     }
 
@@ -956,35 +956,11 @@ export class Model {
   }
 
   /**
-   * Allows for relationships to be automatically saved
-   * @param save
+   * Sets the config
+   * @param config
    */
-  static autoSaveRelationships (save = true) {
-    Model.$autoSaveRelationships = save
-  }
-
-  /**
-   * Set the type map
-   * @param map
-   */
-  static setTypeMap (map) {
-    Model.$typeMap = isFunction(map) ? map() : map
-  }
-
-  /**
-   * Sets Vuex on the model
-   * @param bus
-   */
-  static setEventBus (bus) {
-    Model.$events = bus
-  }
-
-  /**
-   * Sets Axios on the model
-   * @param http
-   */
-  static setAxios (http) {
-    Model.$http = http
+  static setConfig (config) {
+    Model.$config = config
   }
 }
 

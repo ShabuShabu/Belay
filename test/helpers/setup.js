@@ -12,13 +12,17 @@ export const testSetup = (axios, eventBus = true, autoSave = false) => {
     )
   }
 
-  Model.autoSaveRelationships(autoSave)
-  Model.setAxios(axios)
-  Model.setTypeMap(modelTypeMap)
+  const config = {
+    autoSaveRelationships: autoSave,
+    http: axios,
+    typeMap: modelTypeMap()
+  }
 
   if (eventBus) {
-    Model.setEventBus(new EventBus(new Vue()))
+    config.events = new EventBus(new Vue())
   }
+
+  Model.setConfig(config)
 
   return axios
 }

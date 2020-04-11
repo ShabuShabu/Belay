@@ -13,7 +13,7 @@ describe('Model Events', () => {
 
   beforeEach(() => {
     eventBus = new Vue()
-    Model.setEventBus(new EventBus(eventBus))
+    Model.$config.events = new EventBus(eventBus)
     mock.reset()
   })
 

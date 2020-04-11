@@ -4,17 +4,17 @@ import { modelTypeMap } from './setup'
 
 export class TestModel extends Model {
   static withAxios () {
-    Model.$http = 'foo'
+    Model.$config.http = 'foo'
     return this
   }
 
   static withEvents () {
-    Model.$events = new Vue()
+    Model.$config.events = new Vue()
     return this
   }
 
   static withTypeMap () {
-    Model.$typeMap = modelTypeMap()
+    Model.$config.typeMap = modelTypeMap()
     return this
   }
 
@@ -51,7 +51,7 @@ export class TestModel extends Model {
     delete TestModel.jsonApiType
     delete TestModel.prototype.resource
     delete TestModel.prototype.attributes
-    Model.$http = undefined
+    Model.$config = {}
     return this
   }
 }
