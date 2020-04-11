@@ -10,7 +10,6 @@ Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
 
 - Add http tests for the builder
 - Add http uri option and default back to jsonApiType
-- Make soft delete field configurable
 - Make Belay work with auto-incrementing ids
 - Non-existing relationships will have to be saved before the model
 - When deleting an attribute, reset it to its default value, rather than removing it completely
@@ -41,6 +40,7 @@ axios.interceptors.response.use(
 Model.setConfig({
   http: axios,
   events: new EventBus(Bus),
+  trashedAttribute: 'deletedAt', // default
   typeMap: { 
     posts: Post, 
     categories: Category, 
@@ -65,6 +65,7 @@ export default ({ $axios, store }) => {
   Model.setConfig({
     http: $axios,
     events: new EventBus(store.$events),
+    trashedAttribute: 'deletedAt', // default
     typeMap: { 
       posts: Post, 
       categories: Category, 
@@ -266,6 +267,8 @@ const response = await page.createOrUpdate()
 
 If the model attributes contain a `deletedAt` field and `deletedAt` is null, then Belay will set it the current date, indicating that the model has been soft deleted.
 If the `deletedAt` field is not null, however, then Belay will set the `wasDestroyed` flag to true.
+
+The `deletedAt` attribute can be configured via the `trashedAttribute` Model option.
 
 ```js
 const page = new Page({ data: ... })

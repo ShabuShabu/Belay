@@ -336,11 +336,20 @@ export class Model {
   }
 
   /**
+   * Get the attribute that decides if a model is trashed or not
+   * @returns {*}
+   * @private
+   */
+  _trashedAttribute () {
+    return Model.$config?.trashedAttribute ?? 'deletedAt'
+  }
+
+  /**
    * Flag that describes if the model has been soft deleted
    * @returns {boolean}
    */
   isTrashed () {
-    return this.attribute('deletedAt') instanceof Date
+    return this.attribute(this._trashedAttribute()) instanceof Date
   }
 
   /**
@@ -352,7 +361,7 @@ export class Model {
       'links',
       'attributes.createdAt',
       'attributes.updatedAt',
-      'attributes.deletedAt'
+      `attributes.${this._trashedAttribute()}`
     ]
   }
 
@@ -712,7 +721,7 @@ export class Model {
     }
 
     if (!this.wasDestroyed && this._isTrashable() && !this.isTrashed()) {
-      this.attribute('deletedAt', formatISO(new Date()))
+      this.attribute(this._trashedAttribute(), formatISO(new Date()))
       this._fire(Model.TRASHED, { response, model: this })
     }
 
@@ -725,7 +734,7 @@ export class Model {
    * @private
    */
   _isTrashable () {
-    return this.attributes?.deletedAt !== undefined
+    return this.attributes?.[this._trashedAttribute()] !== undefined
   }
 
   /**
