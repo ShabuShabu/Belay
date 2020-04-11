@@ -13,7 +13,7 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 
 ## Installation
 
-Well, this will work once Belay was published to NPM, but this early in the dev process I'll just use `yarn link`. 
+:bangbang: Well, this will work once Belay has been published to NPM, but this early in the dev process I'll just not bother and use `yarn link`. 
 
 ```
 $ yarn add @shabushabu/belay
@@ -375,6 +375,8 @@ Belay fires off a variety of events for most of its operations. Here's a full li
     * Fires when relationships have been auto-saved
     * Payload: `{ responses }`
 
+These events are also available as static properties on the model, e.g. `Model.DESTROYED`
+
 ## Builder
 
 Any model can also be used statically. Under the hood `null` is passed to the model, indicating that we want to run a query.
@@ -395,11 +397,11 @@ Query parameters can also be passed to the builder:
 const response = await Page.where('title', 'Cool').include('user').limit(10).get()
 ```
 
-## Caveats
+## :bangbang: Caveats
 
 This package uses [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) quite a bit, so if you only target modern browsers, like  Firefox, Chrome, Safari 10+ and Edge, then you're golden. Not so much if you have to support old and tired browsers like IE. There is a [polyfill](https://github.com/GoogleChrome/proxy-polyfill), but use at your own risk.
 
-Belay is still young and while it is tested, there will probs be bugs. I will try to iron them out as I find them, but until there's a v1 release, use at your own risk. 
+Belay is still young and while it is tested, there will probs be bugs. I will try to iron them out as I find them, but until there's a v1 release, expect things to go boom. Oh, and one more thing, while this package is intended to work perfectly with Nuxt and Vue, I haven't actually gotten round to testing Belay out in a real app yet :grimacing:
 
 ## Tests
 
