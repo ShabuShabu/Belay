@@ -347,7 +347,7 @@ export class Model {
    * @returns {*}
    * @private
    */
-  _trashedAttribute () {
+  get trashedAttribute () {
     return Model.$config?.trashedAttribute ?? 'deletedAt'
   }
 
@@ -356,7 +356,7 @@ export class Model {
    * @returns {boolean}
    */
   isTrashed () {
-    return this.attribute(this._trashedAttribute()) instanceof Date
+    return this.attribute(this.trashedAttribute) instanceof Date
   }
 
   /**
@@ -368,7 +368,7 @@ export class Model {
       'links',
       'attributes.createdAt',
       'attributes.updatedAt',
-      `attributes.${this._trashedAttribute()}`
+      `attributes.${this.trashedAttribute}`
     ]
   }
 
@@ -728,7 +728,7 @@ export class Model {
     }
 
     if (!this.wasDestroyed && this._isTrashable() && !this.isTrashed()) {
-      this.attribute(this._trashedAttribute(), formatISO(new Date()))
+      this.attribute(this.trashedAttribute, formatISO(new Date()))
       this._fire(Model.TRASHED, { response, model: this })
     }
 
@@ -741,7 +741,7 @@ export class Model {
    * @private
    */
   _isTrashable () {
-    return this.attributes?.[this._trashedAttribute()] !== undefined
+    return this.attributes?.[this.trashedAttribute] !== undefined
   }
 
   /**

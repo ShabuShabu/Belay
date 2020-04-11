@@ -262,10 +262,10 @@ const response = await page.createOrUpdate()
 
 ### Deleting
 
-If the model attributes contain a `deletedAt` field and `deletedAt` is null, then Belay will set it the current date, indicating that the model has been soft deleted.
+If the model attributes contain a `deletedAt` field and `deletedAt` is null, then Belay will set it to the current date, indicating that the model has been soft deleted.
 If the `deletedAt` field is not null, however, then Belay will set the `wasDestroyed` flag to true.
 
-The `deletedAt` attribute can be configured via the `trashedAttribute` Model option.
+The `deletedAt` attribute can be configured via the `trashedAttribute` Model option or by overriding the `trashedAttribute` getter.
 
 ```js
 const page = new Page({ data: ... })
