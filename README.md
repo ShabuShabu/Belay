@@ -2,7 +2,7 @@
     <img alt="" src="https://github.com/boris-glumpler/Belay/blob/develop/belay.png"/>
 </p>
 
-# Belay
+<h1 align="center">Belay</h1>
 
 Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
 
