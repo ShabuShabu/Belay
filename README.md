@@ -1,4 +1,4 @@
-![Belay](https://github.com/shabushabu/Belay/blob/develop/belay.png)
+![Belay](https://github.com/boris-glumpler/Belay/blob/develop/belay.png)
 
 # Belay
 
