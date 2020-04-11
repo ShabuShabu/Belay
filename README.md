@@ -1,5 +1,5 @@
 <p align="center">
-![Belay](https://github.com/boris-glumpler/Belay/blob/develop/belay.png)
+    <img alt="" src="https://github.com/boris-glumpler/Belay/blob/develop/belay.png"/>
 </p>
 
 # Belay
