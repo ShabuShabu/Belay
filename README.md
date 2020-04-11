@@ -9,9 +9,7 @@ Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
 ## ToDo
 
 - Add http tests for the builder
-- Make Belay work with auto-incrementing ids
 - Non-existing relationships will have to be saved before the model
-- When deleting an attribute, reset it to its default value, rather than removing it completely
 
 ## Installation
 

@@ -120,10 +120,14 @@ export class Model {
 
     if (!this.schema.isJsonApi(resource)) {
       data = {
-        id: uuid(),
+        id: this.newId(),
         type: this.constructor.jsonApiType(),
         attributes: this._mergeDefaultAttributes(resource),
         relationships: {}
+      }
+
+      if (!data.id) {
+        unset(data, 'id')
       }
     } else {
       data = resource?.data
@@ -304,6 +308,14 @@ export class Model {
     this.isNew = true
 
     set(this.resource, 'data.id', id)
+  }
+
+  /**
+   * Generate an id
+   * @returns {string|null}
+   */
+  newId () {
+    return uuid()
   }
 
   /**
