@@ -17,6 +17,8 @@ Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
 
 ## Installation
 
+Well, this will work once Belay was published to NPM, but this early in the dev process I'll just use `yarn link`. 
+
 ```
 $ yarn add @shabushabu/belay
 ```
@@ -384,7 +386,7 @@ const page = await Page.find('904754f0-7faa-4872-b7b8-2e2556d7a7bc')
 Query parameters can also be passed to the builder:
 
 ```js
-// GET /pages?filter[title]=Cool&include=user&&limit=10
+// GET /pages?filter[title]=Cool&include=user&limit=10
 
 const response = await Page.where('title', 'Cool').include('user').limit(10).get()
 ```
