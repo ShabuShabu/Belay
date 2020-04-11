@@ -2,12 +2,9 @@
     <img alt="" src="https://github.com/boris-glumpler/Belay/blob/develop/belay.png"/>
 </p>
 
-<h1 align="center">
-    Belay<br>
-    <small>Keeps you save while climbing upwards</small>
-</h1>
+<h1 align="center">Belay</h1>
 
-Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
+An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that gets you safely to the top
 
 ## ToDo
 
