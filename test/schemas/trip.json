@@ -1,0 +1,53 @@
+{
+  "definitions": {
+    "attributes": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "faq": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "answer": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "publishedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "startedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "finishedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

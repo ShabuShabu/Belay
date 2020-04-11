@@ -1,0 +1,63 @@
+{
+    "data": {
+        "id": "904754f0-7faa-4872-b7b8-2e2556d7a7bc",
+        "type": "pages",
+        "attributes": {
+            "title": "Et eum earum aspernatur.",
+            "slug": "et-eum-earum-aspernatur",
+            "content": "Esse dignissimos eligendi maxime qui. Et quia magnam alias repellat quas animi. Voluptatibus itaque culpa nisi dicta.\n\nEius reprehenderit iure incidunt dolor. Voluptatem provident accusantium quod voluptates ab et laboriosam sapiente. Ab odio eaque libero saepe impedit molestiae.\n\nSint minus debitis voluptate nihil eligendi voluptas ea. Reprehenderit ratione veritatis neque quos debitis. Necessitatibus ea est enim ut ut vel. Omnis ea autem est sed modi quo quia.",
+            "seo": {
+                "title": "Et eum earum aspernatur.",
+                "description": "Esse dignissimos eligendi maxime qui. Et quia magnam alias repellat quas animi. Voluptatibus itaque culpa nisi dicta.Eius reprehenderit iure incidunt dolor. Voluptatem provident accusantium quod voluptates ab et laboriosam sapiente. Ab odio eaque libero saepe impedit molestiae.Sint minus debitis vol"
+            },
+            "publishedAt": "2020-04-08T15:40:21.000000Z",
+            "createdAt": "2020-04-08T15:40:21.000000Z",
+            "updatedAt": "2020-04-08T15:40:21.000000Z",
+            "deletedAt": null
+        },
+        "links": {
+            "self": "https:\/\/api.travelled.today\/pages\/904754f0-7faa-4872-b7b8-2e2556d7a7bc"
+        },
+        "relationships": {
+            "user": {
+                "links": {
+                    "related": "https:\/\/api.travelled.today\/pages\/904754f0-7faa-4872-b7b8-2e2556d7a7bc\/user"
+                },
+                "data": {
+                    "type": "users",
+                    "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                }
+            }
+        }
+    },
+    "includes": [
+        {
+            "id": "9041eabb-932a-4d47-a767-6c799873354a",
+            "type": "users",
+            "attributes": {
+                "name": "Boris Glumpler",
+                "email": "boris@travelled.today",
+                "variant": "traveller",
+                "hasFullAccess": true,
+                "tiers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                ],
+                "settings": {
+                    "newsletter": false
+                },
+                "createdAt": "2020-04-05T23:04:14.000000Z",
+                "updatedAt": "2020-04-05T23:04:14.000000Z",
+                "deletedAt": null
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/users\/9041eabb-932a-4d47-a767-6c799873354a"
+            }
+        }
+    ]
+}

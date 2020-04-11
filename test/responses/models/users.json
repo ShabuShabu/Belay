@@ -1,0 +1,22 @@
+{
+    "data": {
+        "id": "904754f3-f5c6-4d34-b8cd-394b7e25d7e4",
+        "type": "users",
+        "attributes": {
+            "name": "Coby Robel IV",
+            "email": "trantow.bo@example.net",
+            "variant": "supporter",
+            "hasFullAccess": false,
+            "tiers": [
+                0
+            ],
+            "settings": {},
+            "createdAt": "2020-04-08T15:40:23.000000Z",
+            "updatedAt": "2020-04-08T15:40:23.000000Z",
+            "deletedAt": null
+        },
+        "links": {
+            "self": "https:\/\/api.travelled.today\/users\/904754f3-f5c6-4d34-b8cd-394b7e25d7e4"
+        }
+    }
+}

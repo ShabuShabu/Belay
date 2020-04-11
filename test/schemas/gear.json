@@ -1,0 +1,35 @@
+{
+  "definitions": {
+    "attributes": {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "cost": {
+          "type": "integer"
+        },
+        "weight": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

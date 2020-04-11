@@ -1,0 +1,43 @@
+{
+  "definitions": {
+    "attributes": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": ["string", "null"],
+          "format": "email"
+        },
+        "variant": {
+          "type": "string"
+        },
+        "hasFullAccess": {
+          "type": "boolean"
+        },
+        "tiers": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "createdAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

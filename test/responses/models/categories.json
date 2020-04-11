@@ -1,0 +1,55 @@
+{
+    "data": {
+        "id": "904754ec-79a1-4058-abc4-11345d2eae25",
+        "type": "categories",
+        "attributes": {
+            "title": "Consequuntur sunt officia aut nihil nihil.",
+            "createdAt": "2020-04-08T15:40:18.000000Z",
+            "updatedAt": "2020-04-08T15:40:18.000000Z"
+        },
+        "links": {
+            "self": "https:\/\/api.travelled.today\/categories\/904754ec-79a1-4058-abc4-11345d2eae25"
+        },
+        "relationships": {
+            "user": {
+                "links": {
+                    "related": "https:\/\/api.travelled.today\/categories\/904754ec-79a1-4058-abc4-11345d2eae25\/user"
+                },
+                "data": {
+                    "type": "users",
+                    "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                }
+            }
+        }
+    },
+    "includes": [
+        {
+            "id": "9041eabb-932a-4d47-a767-6c799873354a",
+            "type": "users",
+            "attributes": {
+                "name": "Boris Glumpler",
+                "email": "boris@travelled.today",
+                "variant": "traveller",
+                "hasFullAccess": true,
+                "tiers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                ],
+                "settings": {
+                    "newsletter": false
+                },
+                "createdAt": "2020-04-05T23:04:14.000000Z",
+                "updatedAt": "2020-04-05T23:04:14.000000Z",
+                "deletedAt": null
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/users\/9041eabb-932a-4d47-a767-6c799873354a"
+            }
+        }
+    ]
+}

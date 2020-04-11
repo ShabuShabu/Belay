@@ -1,0 +1,67 @@
+{
+    "data": {
+        "id": "904754f2-46a9-48cd-a07f-27ba27e72b31",
+        "type": "stream",
+        "attributes": {
+            "title": "Magnam pariatur dolorum earum nostrum error.",
+            "content": "Fugiat fugiat minima qui eum commodi repellendus. Omnis molestias corporis asperiores quia delectus vitae iure. Ad occaecati voluptates explicabo adipisci. Error corporis numquam reiciendis eos.\n\nEt omnis quis inventore voluptatibus. Eum quia voluptatem qui neque eos culpa. Porro reprehenderit soluta aut sunt sint ipsum. Quidem et nihil eum cupiditate laboriosam.\n\nEum suscipit aliquam fuga velit atque. Vel esse deserunt eius quia earum provident rerum.",
+            "variant": "book",
+            "extras": {},
+            "continents": [],
+            "countries": [],
+            "cities": [],
+            "timezones": [],
+            "what3words": [],
+            "supporterTier": 0,
+            "happenedAt": null,
+            "publishedAt": "2020-04-08T15:40:22.000000Z",
+            "createdAt": "2020-04-08T15:40:22.000000Z",
+            "updatedAt": "2020-04-08T15:40:22.000000Z",
+            "deletedAt": null
+        },
+        "links": {
+            "self": "https:\/\/api.travelled.today\/stream\/904754f2-46a9-48cd-a07f-27ba27e72b31"
+        },
+        "relationships": {
+            "user": {
+                "links": {
+                    "related": "https:\/\/api.travelled.today\/stream\/904754f2-46a9-48cd-a07f-27ba27e72b31\/user"
+                },
+                "data": {
+                    "type": "users",
+                    "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                }
+            }
+        }
+    },
+    "includes": [
+        {
+            "id": "9041eabb-932a-4d47-a767-6c799873354a",
+            "type": "users",
+            "attributes": {
+                "name": "Boris Glumpler",
+                "email": "boris@travelled.today",
+                "variant": "traveller",
+                "hasFullAccess": true,
+                "tiers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                ],
+                "settings": {
+                    "newsletter": false
+                },
+                "createdAt": "2020-04-05T23:04:14.000000Z",
+                "updatedAt": "2020-04-05T23:04:14.000000Z",
+                "deletedAt": null
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/users\/9041eabb-932a-4d47-a767-6c799873354a"
+            }
+        }
+    ]
+}

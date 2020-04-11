@@ -1,0 +1,74 @@
+{
+  "definitions": {
+    "attributes": {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string"
+        },
+        "extras": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "continents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "countries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timezones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "what3words": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "supporterTier": {
+          "type": "integer"
+        },
+        "happenedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "publishedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

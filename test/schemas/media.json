@@ -1,0 +1,34 @@
+{
+  "definitions": {
+    "attributes": {
+      "properties": {
+        "caption": {
+          "type": "string"
+        },
+        "mime": {
+          "type": "string"
+        },
+        "files": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "takenAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

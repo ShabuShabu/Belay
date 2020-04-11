@@ -1,0 +1,212 @@
+{
+    "data": [
+        {
+            "id": "904754f5-12a0-4373-af4a-81f09f5ca8c9",
+            "type": "categories",
+            "attributes": {
+                "title": "Eligendi aut et hic nam hic provident.",
+                "createdAt": "2020-04-08T15:40:24.000000Z",
+                "updatedAt": "2020-04-08T15:40:24.000000Z"
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/categories\/904754f5-12a0-4373-af4a-81f09f5ca8c9"
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "related": "https:\/\/api.travelled.today\/categories\/904754f5-12a0-4373-af4a-81f09f5ca8c9\/user"
+                    },
+                    "data": {
+                        "type": "users",
+                        "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                    }
+                }
+            }
+        },
+        {
+            "id": "904754f5-1309-420b-aa7b-6905d4bb0fe1",
+            "type": "categories",
+            "attributes": {
+                "title": "Distinctio error fugit consectetur odit.",
+                "createdAt": "2020-04-08T15:40:24.000000Z",
+                "updatedAt": "2020-04-08T15:40:24.000000Z"
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/categories\/904754f5-1309-420b-aa7b-6905d4bb0fe1"
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "related": "https:\/\/api.travelled.today\/categories\/904754f5-1309-420b-aa7b-6905d4bb0fe1\/user"
+                    },
+                    "data": {
+                        "type": "users",
+                        "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                    }
+                }
+            }
+        },
+        {
+            "id": "904754f5-1393-435e-93eb-f203c8475691",
+            "type": "categories",
+            "attributes": {
+                "title": "Qui sit excepturi et odit aut.",
+                "createdAt": "2020-04-08T15:40:24.000000Z",
+                "updatedAt": "2020-04-08T15:40:24.000000Z"
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/categories\/904754f5-1393-435e-93eb-f203c8475691"
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "related": "https:\/\/api.travelled.today\/categories\/904754f5-1393-435e-93eb-f203c8475691\/user"
+                    },
+                    "data": {
+                        "type": "users",
+                        "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                    }
+                }
+            }
+        },
+        {
+            "id": "904754f5-1401-4205-81b4-6ad27af7b801",
+            "type": "categories",
+            "attributes": {
+                "title": "Fuga alias repudiandae culpa et ipsa molestiae.",
+                "createdAt": "2020-04-08T15:40:24.000000Z",
+                "updatedAt": "2020-04-08T15:40:24.000000Z"
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/categories\/904754f5-1401-4205-81b4-6ad27af7b801"
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "related": "https:\/\/api.travelled.today\/categories\/904754f5-1401-4205-81b4-6ad27af7b801\/user"
+                    },
+                    "data": {
+                        "type": "users",
+                        "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                    }
+                }
+            }
+        },
+        {
+            "id": "904754f5-1460-4911-b5ea-8b774d170ed7",
+            "type": "categories",
+            "attributes": {
+                "title": "Facilis accusamus vel natus nemo sit dolores molestias.",
+                "createdAt": "2020-04-08T15:40:24.000000Z",
+                "updatedAt": "2020-04-08T15:40:24.000000Z"
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/categories\/904754f5-1460-4911-b5ea-8b774d170ed7"
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "related": "https:\/\/api.travelled.today\/categories\/904754f5-1460-4911-b5ea-8b774d170ed7\/user"
+                    },
+                    "data": {
+                        "type": "users",
+                        "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                    }
+                }
+            }
+        },
+        {
+            "id": "904754f5-14be-4e38-9a4c-c1b99c80b4d2",
+            "type": "categories",
+            "attributes": {
+                "title": "Ex quod necessitatibus quia nostrum et sapiente inventore.",
+                "createdAt": "2020-04-08T15:40:24.000000Z",
+                "updatedAt": "2020-04-08T15:40:24.000000Z"
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/categories\/904754f5-14be-4e38-9a4c-c1b99c80b4d2"
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "related": "https:\/\/api.travelled.today\/categories\/904754f5-14be-4e38-9a4c-c1b99c80b4d2\/user"
+                    },
+                    "data": {
+                        "type": "users",
+                        "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                    }
+                }
+            }
+        },
+        {
+            "id": "904754f5-151c-4a19-ba00-666ce016bf06",
+            "type": "categories",
+            "attributes": {
+                "title": "Enim ipsum qui harum aut veniam doloribus similique consequatur.",
+                "createdAt": "2020-04-08T15:40:24.000000Z",
+                "updatedAt": "2020-04-08T15:40:24.000000Z"
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/categories\/904754f5-151c-4a19-ba00-666ce016bf06"
+            },
+            "relationships": {
+                "user": {
+                    "links": {
+                        "related": "https:\/\/api.travelled.today\/categories\/904754f5-151c-4a19-ba00-666ce016bf06\/user"
+                    },
+                    "data": {
+                        "type": "users",
+                        "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                    }
+                }
+            }
+        }
+    ],
+    "links": {
+        "first": "https:\/\/api.travelled.today\/categories?page%5Bnumber%5D=1",
+        "last": "https:\/\/api.travelled.today\/categories?page%5Bnumber%5D=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "pagination": {
+            "currentPage": 1,
+            "from": 1,
+            "lastPage": 1,
+            "path": "https:\/\/api.travelled.today\/categories",
+            "perPage": 20,
+            "to": 7,
+            "total": 7
+        }
+    },
+    "includes": [
+        {
+            "id": "9041eabb-932a-4d47-a767-6c799873354a",
+            "type": "users",
+            "attributes": {
+                "name": "Boris Glumpler",
+                "email": "boris@travelled.today",
+                "variant": "traveller",
+                "hasFullAccess": true,
+                "tiers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                ],
+                "settings": {
+                    "newsletter": false
+                },
+                "createdAt": "2020-04-05T23:04:14.000000Z",
+                "updatedAt": "2020-04-05T23:04:14.000000Z",
+                "deletedAt": null
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/users\/9041eabb-932a-4d47-a767-6c799873354a"
+            }
+        }
+    ]
+}

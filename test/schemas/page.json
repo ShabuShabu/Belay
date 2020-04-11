@@ -1,0 +1,45 @@
+{
+  "definitions": {
+    "attributes": {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "seo": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "publishedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "deletedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

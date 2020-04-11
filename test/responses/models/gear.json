@@ -1,0 +1,60 @@
+{
+    "data": {
+        "id": "904754ed-b939-492a-8f8e-c82b5bb2069e",
+        "type": "gear",
+        "attributes": {
+            "title": "Dicta quia et minima ut nisi maiores.",
+            "description": "Est tenetur cum itaque et non officia. Repellat voluptatibus eos est non. Ratione labore dolor suscipit veritatis voluptas. Libero necessitatibus ea nulla aut dicta fuga necessitatibus sit.\n\nSuscipit ut qui laboriosam. Necessitatibus sunt et et possimus ratione sequi. Vel sed omnis animi accusantium est dolorum assumenda. Architecto autem ipsum repudiandae ut eos et possimus.\n\nOfficia sed odit aut. Hic sit unde aliquid pariatur cumque sed. Sint enim et esse fuga quis. Quia labore explicabo labore et perferendis et libero.",
+            "url": "http:\/\/www.smith.net\/est-consequatur-sit-vero-corrupti-corrupti-rerum-voluptatibus",
+            "quantity": 7,
+            "cost": 0,
+            "weight": 1515,
+            "createdAt": "2020-04-08T15:40:19.000000Z",
+            "updatedAt": "2020-04-08T15:40:19.000000Z"
+        },
+        "links": {
+            "self": "https:\/\/api.travelled.today\/gear\/904754ed-b939-492a-8f8e-c82b5bb2069e"
+        },
+        "relationships": {
+            "user": {
+                "links": {
+                    "related": "https:\/\/api.travelled.today\/gear\/904754ed-b939-492a-8f8e-c82b5bb2069e\/user"
+                },
+                "data": {
+                    "type": "users",
+                    "id": "9041eabb-932a-4d47-a767-6c799873354a"
+                }
+            }
+        }
+    },
+    "includes": [
+        {
+            "id": "9041eabb-932a-4d47-a767-6c799873354a",
+            "type": "users",
+            "attributes": {
+                "name": "Boris Glumpler",
+                "email": "boris@travelled.today",
+                "variant": "traveller",
+                "hasFullAccess": true,
+                "tiers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                ],
+                "settings": {
+                    "newsletter": false
+                },
+                "createdAt": "2020-04-05T23:04:14.000000Z",
+                "updatedAt": "2020-04-05T23:04:14.000000Z",
+                "deletedAt": null
+            },
+            "links": {
+                "self": "https:\/\/api.travelled.today\/users\/9041eabb-932a-4d47-a767-6c799873354a"
+            }
+        }
+    ]
+}
