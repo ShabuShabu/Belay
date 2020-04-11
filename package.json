@@ -1,8 +1,12 @@
 {
-  "name": "belay",
+  "name": "@shabushabu/belay",
   "version": "0.1.0",
   "description": "Active-record(ish) implementation for JSON:API",
   "main": "index.js",
+  "repository": "https://github.com/boris-glumpler/Belay",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "lint:fix": "yarn run lint --fix",
