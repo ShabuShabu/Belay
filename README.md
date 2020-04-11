@@ -9,7 +9,6 @@ Active-record(ish) implementation for a [JSON:API](https://jsonapi.org/)
 ## ToDo
 
 - Add http tests for the builder
-- Add http uri option and default back to jsonApiType
 - Make Belay work with auto-incrementing ids
 - Non-existing relationships will have to be saved before the model
 - When deleting an attribute, reset it to its default value, rather than removing it completely
@@ -215,7 +214,7 @@ export class Page extends Model {
 export default Page
 ```
 
-`jsonApiType` must be set. This would be the `data.type` field on your API response. Belay also assumes that this is the base URI for HTTP requests.
+`jsonApiType` must be set. This would be the `data.type` field on your API response. Belay also assumes that this is the base URI for HTTP requests (can be changed by overriding the `baseUri` getter).
 
 `attributes` lets us define any attributes and their default values.
 

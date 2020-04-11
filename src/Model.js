@@ -7,7 +7,6 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 import cloneDeep from 'lodash/cloneDeep'
-import isFunction from 'lodash/isFunction'
 import { v4 as uuid } from 'uuid'
 import formatISO from 'date-fns/formatISO'
 import collect from 'collect.js'
@@ -308,23 +307,19 @@ export class Model {
   }
 
   /**
-   * Gets the JSON:API type
+   * Gets the base uri for http requests
+   * @returns {string}
+   */
+  get baseUri () {
+    return this.type
+  }
+
+  /**
+   * Gets the model type
    * @returns {string}
    */
   get type () {
     return this.resource?.data?.type ?? this.constructor.jsonApiType()
-  }
-
-  /**
-   * Set the type ;)
-   * @param type
-   */
-  set type (type) {
-    set(
-      this.resource,
-      'data.type',
-      type === this.constructor.jsonApiType() ? type : this.constructor.jsonApiType()
-    )
   }
 
   /**
@@ -680,7 +675,7 @@ export class Model {
    * @returns {Promise<*>}
    */
   async get (asCollection = false) {
-    const response = await this.http.get(`${this.type}${this._builder.query()}`)
+    const response = await this.http.get(`${this.baseUri}${this._builder.query()}`)
 
     const collection = asCollection ? Paginator.hydrate(response.data) : new Paginator(response.data)
 
@@ -695,7 +690,7 @@ export class Model {
    * @returns {Promise<*>}
    */
   async find (id) {
-    const response = await this.http.get(`${this.type}/${id}${this._builder.query()}`)
+    const response = await this.http.get(`${this.baseUri}/${id}${this._builder.query()}`)
 
     const model = Model.hydrate(response.data)
 
@@ -713,7 +708,7 @@ export class Model {
       throw Exception.cannotDeleteModel(this)
     }
 
-    const response = await this.http.delete(`${this.type}/${this.id}`)
+    const response = await this.http.delete(`${this.baseUri}/${this.id}`)
 
     if (this._canBeDestroyed(response)) {
       this.wasDestroyed = true
@@ -770,7 +765,7 @@ export class Model {
       throw Exception.cannotCreateModel(this)
     }
 
-    const response = await this.http.post(this.type, this.toJSON())
+    const response = await this.http.post(this.baseUri, this.toJSON())
 
     if (response.status === Response.CREATED) {
       await this._autoSaveRelationships()
@@ -791,7 +786,7 @@ export class Model {
       throw Exception.cannotUpdateModel(this)
     }
 
-    const response = await this.http.put(`${this.type}/${this.id}`, this.toJSON())
+    const response = await this.http.put(`${this.baseUri}/${this.id}`, this.toJSON())
 
     if (response.status === Response.NO_CONTENT) {
       await this._autoSaveRelationships()
