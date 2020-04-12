@@ -413,5 +413,22 @@ $ yarn run test
 
 ## Credits
 
+- [All Contributors](../../contributors)
 - [Robson Tenório](https://github.com/robsontenorio/vue-api-query) for the builder, the parser and some of the model
 - [Ivan Boyko](https://www.iconfinder.com/visualpharm) for the belay icon
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+
+If you discover any security related issues, please email boris@shabushabu.eu instead of using the issue tracker.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
