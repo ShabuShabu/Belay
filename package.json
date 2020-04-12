@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Active-record(ish) implementation for a JSON:API",
   "main": "dist/index.js",
-  "repository": "https://github.com/boris-glumpler/Belay",
+  "repository": "https://github.com/ShabuShabu/Belay",
   "publishConfig": {
     "access": "public"
   },

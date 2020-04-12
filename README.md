@@ -10,13 +10,14 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 
 - Add http tests for the builder
 - Non-existing relationships will have to be saved before the model
+- World domination
 
 ## Installation
 
 :bangbang: Well, this will work once Belay has been published to NPM, but this early in the dev process I'll just not bother and use `yarn link`. 
 
-```bash
-yarn add @shabushabu/belay
+```
+$ yarn add @shabushabu/belay
 ```
 
 ## Vue.js
@@ -407,8 +408,8 @@ Belay is still young and while it is tested, there will probs be bugs. I will tr
 
 Do read the tests themselves to find out more about Belay!
 
-```bash
-yarn run test
+```
+$ yarn run test
 ```
 
 ## Credits
