@@ -415,7 +415,7 @@ yarn run test
 
 - [All Contributors](../../contributors)
 - [Robson Tenório](https://github.com/robsontenorio/vue-api-query) for the builder, the parser and some of the model
-- [Ivan Boyko](https://www.iconfinder.com/visualpharm) for the belay icon
+- [Ivan Boyko](https://www.iconfinder.com/visualpharm) [[cc]](https://creativecommons.org/licenses/by/3.0/) for the belay icon
 
 ## Changelog
 
