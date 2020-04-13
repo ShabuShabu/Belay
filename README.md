@@ -4,6 +4,12 @@
 
 <h1 align="center">Belay</h1>
 
+<p align="center">
+    <a href="https://github.com/ShabuShabu/Belay/actions?query=workflow%3A%22Run+Jest+tests%22">
+        <img alt="Jest Tests" src="https://github.com/ShabuShabu/Belay/workflows/Run%20Jest%20tests/badge.svg"/>
+    </a>
+</p>
+
 An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that gets you safely to the top
 
 ## ToDo
