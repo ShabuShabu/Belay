@@ -1,5 +1,7 @@
 import DateCast from '../src/casts/DateCast'
 import CollectionCast from '../src/casts/CollectionCast'
+import formatISO from 'date-fns/formatISO'
+import parseISO from 'date-fns/parseISO'
 
 describe('Casts', () => {
   const castProvider = () => {
@@ -21,11 +23,16 @@ describe('Casts', () => {
 
     if (type === 'date') {
       expect(hydrated).toBeInstanceOf(Date)
+
+      const original = new Date(value)
+      const dehydrated = parseISO(cast.dehydrate(hydrated))
+
+      expect(formatISO(dehydrated)).toEqual(formatISO(original))
+
     } else if (type === 'collection') {
       expect(hydrated.all()).toEqual(value)
+      expect(cast.dehydrate(hydrated)).toEqual(value)
     }
-
-    expect(cast.dehydrate(hydrated)).toEqual(value)
   })
 
   test.each(castProvider())('it does not hydrate or mutate invalid values for a %s', (type, Cast) => {
