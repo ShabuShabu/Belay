@@ -7,7 +7,6 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 import cloneDeep from 'lodash/cloneDeep'
-import isFunction from 'lodash/isFunction'
 import { v4 as uuid } from 'uuid'
 import formatISO from 'date-fns/formatISO'
 import collect from 'collect.js'
@@ -75,15 +74,15 @@ export class Model {
    * @private
    */
   _runSetupChecks () {
-    if (Model.$http === undefined) {
+    if (Model?.$config?.http === undefined) {
       throw Exception.axiosNotPresent()
     }
 
-    if (Model.$typeMap === undefined) {
+    if (Model?.$config?.typeMap === undefined) {
       throw Exception.typeMapNotPresent()
     }
 
-    if (Model.$events === undefined) {
+    if (Model?.$config?.events === undefined) {
       throw Exception.busNotPresent()
     }
 
@@ -95,8 +94,8 @@ export class Model {
       throw Exception.propertyDefaultsNotSet(this)
     }
 
-    if (Model.$autoSaveRelationships === undefined) {
-      Model.autoSaveRelationships()
+    if (Model?.$config?.autoSaveRelationships === undefined) {
+      Model.$config.autoSaveRelationships = true
     }
   }
 
@@ -121,10 +120,14 @@ export class Model {
 
     if (!this.schema.isJsonApi(resource)) {
       data = {
-        id: uuid(),
+        id: this.newId(),
         type: this.constructor.jsonApiType(),
         attributes: this._mergeDefaultAttributes(resource),
         relationships: {}
+      }
+
+      if (!data.id) {
+        unset(data, 'id')
       }
     } else {
       data = resource?.data
@@ -185,11 +188,11 @@ export class Model {
    * @returns {*}
    */
   static entityForType (type) {
-    if (!has(Model.$typeMap, type)) {
+    if (!has(Model.$config.typeMap, type)) {
       throw Exception.modelMappingMissing(type)
     }
 
-    return Model.$typeMap[type]
+    return Model.$config.typeMap[type]
   }
 
   /**
@@ -245,7 +248,7 @@ export class Model {
    * @returns {*}
    */
   get http () {
-    return Model.$http
+    return Model.$config.http
   }
 
   /**
@@ -253,7 +256,7 @@ export class Model {
    * @returns {*}
    */
   get events () {
-    return Model.$events
+    return Model.$config.events
   }
 
   /**
@@ -308,23 +311,27 @@ export class Model {
   }
 
   /**
-   * Gets the JSON:API type
+   * Generate an id
+   * @returns {string|null}
+   */
+  newId () {
+    return uuid()
+  }
+
+  /**
+   * Gets the base uri for http requests
+   * @returns {string}
+   */
+  get baseUri () {
+    return this.type
+  }
+
+  /**
+   * Gets the model type
    * @returns {string}
    */
   get type () {
     return this.resource?.data?.type ?? this.constructor.jsonApiType()
-  }
-
-  /**
-   * Set the type ;)
-   * @param type
-   */
-  set type (type) {
-    set(
-      this.resource,
-      'data.type',
-      type === this.constructor.jsonApiType() ? type : this.constructor.jsonApiType()
-    )
   }
 
   /**
@@ -336,11 +343,20 @@ export class Model {
   }
 
   /**
+   * Get the attribute that decides if a model is trashed or not
+   * @returns {*}
+   * @private
+   */
+  get trashedAttribute () {
+    return Model.$config?.trashedAttribute ?? 'deletedAt'
+  }
+
+  /**
    * Flag that describes if the model has been soft deleted
    * @returns {boolean}
    */
   isTrashed () {
-    return this.attribute('deletedAt') instanceof Date
+    return this.attribute(this.trashedAttribute) instanceof Date
   }
 
   /**
@@ -352,7 +368,7 @@ export class Model {
       'links',
       'attributes.createdAt',
       'attributes.updatedAt',
-      'attributes.deletedAt'
+      `attributes.${this.trashedAttribute}`
     ]
   }
 
@@ -671,7 +687,7 @@ export class Model {
    * @returns {Promise<*>}
    */
   async get (asCollection = false) {
-    const response = await this.http.get(`${this.type}${this._builder.query()}`)
+    const response = await this.http.get(`${this.baseUri}${this._builder.query()}`)
 
     const collection = asCollection ? Paginator.hydrate(response.data) : new Paginator(response.data)
 
@@ -686,7 +702,7 @@ export class Model {
    * @returns {Promise<*>}
    */
   async find (id) {
-    const response = await this.http.get(`${this.type}/${id}${this._builder.query()}`)
+    const response = await this.http.get(`${this.baseUri}/${id}${this._builder.query()}`)
 
     const model = Model.hydrate(response.data)
 
@@ -704,7 +720,7 @@ export class Model {
       throw Exception.cannotDeleteModel(this)
     }
 
-    const response = await this.http.delete(`${this.type}/${this.id}`)
+    const response = await this.http.delete(`${this.baseUri}/${this.id}`)
 
     if (this._canBeDestroyed(response)) {
       this.wasDestroyed = true
@@ -712,7 +728,7 @@ export class Model {
     }
 
     if (!this.wasDestroyed && this._isTrashable() && !this.isTrashed()) {
-      this.attribute('deletedAt', formatISO(new Date()))
+      this.attribute(this.trashedAttribute, formatISO(new Date()))
       this._fire(Model.TRASHED, { response, model: this })
     }
 
@@ -725,7 +741,7 @@ export class Model {
    * @private
    */
   _isTrashable () {
-    return this.attributes?.deletedAt !== undefined
+    return this.attributes?.[this.trashedAttribute] !== undefined
   }
 
   /**
@@ -761,7 +777,7 @@ export class Model {
       throw Exception.cannotCreateModel(this)
     }
 
-    const response = await this.http.post(this.type, this.toJSON())
+    const response = await this.http.post(this.baseUri, this.toJSON())
 
     if (response.status === Response.CREATED) {
       await this._autoSaveRelationships()
@@ -782,7 +798,7 @@ export class Model {
       throw Exception.cannotUpdateModel(this)
     }
 
-    const response = await this.http.put(`${this.type}/${this.id}`, this.toJSON())
+    const response = await this.http.put(`${this.baseUri}/${this.id}`, this.toJSON())
 
     if (response.status === Response.NO_CONTENT) {
       await this._autoSaveRelationships()
@@ -799,7 +815,7 @@ export class Model {
    * @private
    */
   async _autoSaveRelationships () {
-    if (!Model.$autoSaveRelationships) {
+    if (!Model.$config.autoSaveRelationships) {
       return Promise.resolve([])
     }
 
@@ -956,35 +972,11 @@ export class Model {
   }
 
   /**
-   * Allows for relationships to be automatically saved
-   * @param save
+   * Sets the config
+   * @param config
    */
-  static autoSaveRelationships (save = true) {
-    Model.$autoSaveRelationships = save
-  }
-
-  /**
-   * Set the type map
-   * @param map
-   */
-  static setTypeMap (map) {
-    Model.$typeMap = isFunction(map) ? map() : map
-  }
-
-  /**
-   * Sets Vuex on the model
-   * @param bus
-   */
-  static setEventBus (bus) {
-    Model.$events = bus
-  }
-
-  /**
-   * Sets Axios on the model
-   * @param http
-   */
-  static setAxios (http) {
-    Model.$http = http
+  static setConfig (config) {
+    Model.$config = config
   }
 }
 
