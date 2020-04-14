@@ -229,7 +229,7 @@ And finally, `relationships` lets us define `HasOne` and `HasMany` relationships
 
 ### Creating
 
-There are two ways to instantiate a new Belay model. By passing in nothing, aka undefined, or an object of attributes that is non-valid JSON:API format.
+There are two ways to instantiate a new Belay model. By passing in nothing, aka undefined, or an object of attributes that is invalid JSON:API.
 
 ```js
 const page = new Page({
@@ -378,7 +378,7 @@ Belay fires off a variety of events for most of its operations. Here's a full li
 - **COLLECTED**
     * Fires when a collection was retrieved
     * Payload: `{ response, collection }`
-- **RELATIONS_SAVED**s
+- **RELATIONS_SAVED**
     * Fires when relationships have been auto-saved
     * Payload: `{ responses }`
 
@@ -421,6 +421,7 @@ $ yarn run test
 ## Credits
 
 - [All Contributors](../../contributors)
+- [BTT](https://boris.travelled.today), aka **Boris Travelled Today**, where Belay was extracted from
 - [Robson Tenório](https://github.com/robsontenorio/vue-api-query) for the builder, the parser and some of the model
 - [Ivan Boyko](https://www.iconfinder.com/visualpharm) [[cc]](https://creativecommons.org/licenses/by/3.0/) for the belay icon
 
