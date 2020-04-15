@@ -8,6 +8,12 @@
     <a href="https://github.com/ShabuShabu/Belay/actions?query=workflow%3A%22Run+Jest+tests%22">
         <img alt="Jest Tests" src="https://github.com/ShabuShabu/Belay/workflows/Run%20Jest%20tests/badge.svg"/>
     </a>
+    <a href="https://github.com/ShabuShabu/Belay/blob/develop/LICENSE.md">
+        <img alt="GitHub license" src="https://img.shields.io/github/license/ShabuShabu/Belay">
+    </a>
+    <a href="https://github.com/ShabuShabu/Belay/tags">
+        <img alt="GitHub license" src="https://img.shields.io/github/v/tag/ShabuShabu/Belay.svg?sort=semver">
+    </a>
 </p>
 
 An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that gets you safely to the top

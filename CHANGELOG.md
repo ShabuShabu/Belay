@@ -2,4 +2,6 @@
 
 All notable changes to `Belay` will be documented in this file
 
-Nothing so far yet, tho...
+## v0.1.0 - 2020-04-14
+
+- First alpha pre-release
