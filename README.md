@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="" src="https://github.com/boris-glumpler/Belay/blob/develop/belay.png"/>
+    <img alt="" src="https://github.com/ShabuShabu/Belay/blob/develop/belay.png"/>
 </p>
 
 <h1 align="center">Belay</h1>

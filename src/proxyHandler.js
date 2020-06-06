@@ -1,4 +1,10 @@
+import isString from 'lodash/isString'
+
 const isRelationshipOperation = (string, name) => {
+  if (!isString(string)) {
+    return false
+  }
+
   return string.startsWith(name) && string.length > name.length
 }
 
