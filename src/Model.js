@@ -58,6 +58,7 @@ export class Model {
   _setup (resource) {
     resource = cloneDeep(resource)
 
+    this.pojo = cloneDeep(resource)
     this.isNew = true
     this.wasDestroyed = false
     this.included = this._filterIncluded(resource)
@@ -386,6 +387,15 @@ export class Model {
       .forEach(path => unset(resource, path))
 
     return resource
+  }
+
+  /**
+   * Get the simple representation of the instance
+   * Useful for re-hydration, eg in a store
+   * @returns {*}
+   */
+  toPOJO () {
+    return this.pojo
   }
 
   /**
