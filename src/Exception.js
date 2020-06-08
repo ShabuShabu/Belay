@@ -11,6 +11,10 @@ export default class Exception {
     return new Error('You must set an event bus on the base model')
   }
 
+  static vuexNotPresent () {
+    return new Error('You must set Vuex on the base model')
+  }
+
   static invalidResource () {
     return new Error('Invalid resource was passed')
   }

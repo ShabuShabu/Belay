@@ -41,6 +41,7 @@ import axios from 'axios'
 import { Model, Response, EventBus } from '@shabushabu/belay'
 import { Post, Category, Tag } from './Hierarchies'
 import Bus from './event-bus'
+import { store } from './store'
 
 axios.interceptors.response.use(
   data => new Response(data),
@@ -48,6 +49,7 @@ axios.interceptors.response.use(
 )
 
 Model.setConfig({
+  store,
   http: axios,
   events: new EventBus(Bus),
   trashedAttribute: 'deletedAt', // default
@@ -73,6 +75,7 @@ export default ({ $axios, store }) => {
   store.$events = new Vue()
 
   Model.setConfig({
+    store,
     http: $axios,
     events: new EventBus(store.$events),
     trashedAttribute: 'deletedAt', // default
