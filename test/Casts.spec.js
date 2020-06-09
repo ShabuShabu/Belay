@@ -1,7 +1,7 @@
-import DateCast from '../src/casts/DateCast'
-import CollectionCast from '../src/casts/CollectionCast'
 import formatISO from 'date-fns/formatISO'
 import parseISO from 'date-fns/parseISO'
+import DateCast from '../lib/casts/DateCast'
+import CollectionCast from '../lib/casts/CollectionCast'
 
 describe('Casts', () => {
   const castProvider = () => {
@@ -28,7 +28,6 @@ describe('Casts', () => {
       const dehydrated = parseISO(cast.dehydrate(hydrated))
 
       expect(formatISO(dehydrated)).toEqual(formatISO(original))
-
     } else if (type === 'collection') {
       expect(hydrated.all()).toEqual(value)
       expect(cast.dehydrate(hydrated)).toEqual(value)

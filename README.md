@@ -32,53 +32,27 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 $ yarn add @shabushabu/belay
 ```
 
-## Vue.js
-
-Set it up in an entry file:
-
-```js
-import axios from 'axios'
-import { Model, Response, Module, belayVuexEvents } from '@shabushabu/belay'
-import { Post, Category, Tag } from './Hierarchies'
-import { store } from './store'
-
-axios.interceptors.response.use(
-  data => new Response(data),
-  error => Promise.reject(error)
-)
-
-store.registerModule('models', Module, { preserveState: true })
-
-Model.setConfig({
-  store,
-  http: axios,
-  trashedAttribute: 'deletedAt', // default
-  typeMap: {
-    posts: Post, 
-    categories: Category, 
-    tags: Tag 
-  }
-})
-
-belayVuexEvents()
-```
-
-### Nuxt.js
-
-Create a plugin (e.g.: `plugins/belay.js`):
+In `nuxt.config.js`:
 
 ```js
 import { Post, Category, Tag } from './Hierarchies'
-import { belay } from '@shabushabu/belay'
 
-export default ({ $axios, store }) => {
-  const typeMap = { 
-    posts: Post, 
-    categories: Category, 
-    tags: Tag 
-  }
+export default {
+  // ...
 
-  belay($axios, typeMap, store)
+  modules: [
+    // ...
+    '@shabushabu/belay'
+  ],
+
+  belay: {
+    typeMap: { 
+      posts: Post, 
+      categories: Category, 
+      tags: Tag 
+    }
+  },
+  // ...                
 }
 ```
 

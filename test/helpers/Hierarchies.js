@@ -1,4 +1,4 @@
-export * from '../../src/Hierarchies'
+export * from '../../lib/Hierarchies'
 export * from './TestModel'
 export * from './Category'
 export * from './Gear'

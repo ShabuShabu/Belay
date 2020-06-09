@@ -1,4 +1,4 @@
-import DateCast from '../../src/casts/DateCast'
+import DateCast from '../../lib/casts/DateCast'
 import schema from '../schemas/page'
 import { Model, Media, User } from './Hierarchies'
 

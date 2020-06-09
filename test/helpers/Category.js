@@ -1,5 +1,5 @@
 import schema from '../schemas/category'
-import DateCast from '../../src/casts/DateCast'
+import DateCast from '../../lib/casts/DateCast'
 import { Model, Gear, User, Stream, Page } from './Hierarchies'
 
 export class Category extends Model {

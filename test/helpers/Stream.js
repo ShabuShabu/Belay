@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
-import DateCast from '../../src/casts/DateCast'
+import DateCast from '../../lib/casts/DateCast'
 import streamSchema from '../schemas/stream'
 import { Book, Model, Movie, Ride, User, Media, Trip } from './Hierarchies'
 
