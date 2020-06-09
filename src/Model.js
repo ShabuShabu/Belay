@@ -261,7 +261,7 @@ export class Model {
    * @returns {boolean}
    */
   get usingStore () {
-    return Model?.$config?.store === undefined
+    return Model?.$config?.store !== undefined
   }
 
   /**

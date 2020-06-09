@@ -48,16 +48,16 @@ export default {
       let model
 
       if (type) {
-        model = get(state.cache, [type, id])
+        model = get(state.cache, [type, id], null)
       } else {
         const models = Object.keys(state.cache).reduce(
           (models, sub) => ({ ...models, ...get(state.cache, sub, {}) }), {}
         )
 
-        model = get(models, id)
+        model = get(models, id, null)
       }
 
-      return Model.hydrate(model)
+      return model !== null ? Model.hydrate(model) : model
     }
   }
 }
