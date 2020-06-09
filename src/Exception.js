@@ -7,10 +7,6 @@ export default class Exception {
     return new Error('You must set a type map on the base model')
   }
 
-  static busNotPresent () {
-    return new Error('You must set an event bus on the base model')
-  }
-
   static invalidResource () {
     return new Error('Invalid resource was passed')
   }

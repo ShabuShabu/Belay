@@ -12,7 +12,7 @@ export default {
   }),
 
   mutations: {
-    push (state, model) {
+    sync (state, model) {
       set(state.cache, [model.type, model.id], model.toJSON())
     },
 
@@ -22,12 +22,12 @@ export default {
   },
 
   actions: {
-    push ({ commit }, model) {
+    sync ({ commit }, model) {
       if (!(model instanceof Model)) {
         return
       }
 
-      commit('push', model)
+      commit('sync', model)
     },
 
     remove ({ commit }, model) {

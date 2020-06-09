@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 import cloneDeep from 'lodash/cloneDeep'
+import Emitter from 'tiny-emitter/dist/tinyemitter'
 import { v4 as uuid } from 'uuid'
 import formatISO from 'date-fns/formatISO'
 import collect from 'collect.js'
@@ -80,10 +81,6 @@ export class Model {
 
     if (Model?.$config?.typeMap === undefined) {
       throw Exception.typeMapNotPresent()
-    }
-
-    if (Model?.$config?.events === undefined) {
-      throw Exception.busNotPresent()
     }
 
     if (this.constructor.jsonApiType() === '') {
@@ -252,14 +249,6 @@ export class Model {
   }
 
   /**
-   * Get the event bus
-   * @returns {*}
-   */
-  get events () {
-    return Model.$config.events
-  }
-
-  /**
    * Get the model Vuex instance
    * @returns {*}
    */
@@ -277,26 +266,20 @@ export class Model {
 
   /**
    * Sync the model to Vuex
-   * @private
    */
-  _pushToStore () {
-    if (!this.usingStore) {
-      return
+  syncToStore () {
+    if (this.usingStore) {
+      this.store.dispatch('models/sync', this)
     }
-
-    this.store.dispatch('models/push', this)
   }
 
   /**
    * Remove the model from Vuex
-   * @private
    */
-  _removeFromStore () {
-    if (!this.usingStore) {
-      return
+  removeFromStore () {
+    if (this.usingStore) {
+      this.store.dispatch('models/remove', this)
     }
-
-    this.store.dispatch('models/remove', this)
   }
 
   /**
@@ -309,11 +292,20 @@ export class Model {
   _fire (event, payload = {}) {
     const events = Array.isArray(event) ? event : [event]
 
-    events.forEach((name) => {
-      this.events.fire(name, payload)
-    })
+    events.forEach(
+        name => Model.$config.events.emit(name, payload)
+    )
 
     return this
+  }
+
+  /**
+   * Add event handlers
+   * @param event
+   * @param handler
+   */
+  static on (event, handler) {
+    Model.$config.events.on(event, handler)
   }
 
   /**
@@ -1027,6 +1019,8 @@ export class Model {
    */
   static setConfig (config) {
     Model.$config = config
+
+    Model.$config.events = new Emitter()
   }
 }
 

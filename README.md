@@ -38,9 +38,8 @@ Set it up in an entry file:
 
 ```js
 import axios from 'axios'
-import { Model, Response, EventBus, Module } from '@shabushabu/belay'
+import { Model, Response, Module } from '@shabushabu/belay'
 import { Post, Category, Tag } from './Hierarchies'
-import Bus from './event-bus'
 import { store } from './store'
 
 axios.interceptors.response.use(
@@ -53,7 +52,6 @@ store.registerModule('models', Module, { preserveState: true })
 Model.setConfig({
   store,
   http: axios,
-  events: new EventBus(Bus),
   trashedAttribute: 'deletedAt', // default
   typeMap: {
     posts: Post, 
@@ -65,23 +63,20 @@ Model.setConfig({
 
 ### Nuxt.js
 
-Create a plugin (plugins/belay.js):
+Create a plugin (e.g.: `plugins/belay.js`):
 
 ```js
-import Vue from 'vue'
 import { Post, Category, Tag } from './Hierarchies'
-import { Model, Response, EventBus } from '@shabushabu/belay'
+import { Model, Response } from '@shabushabu/belay'
 
 export default ({ $axios, store }) => {
   $axios.onResponse(data => new Response(data))
-  store.$events = new Vue()
 
   store.registerModule('models', Module, { preserveState: process.client })
 
   Model.setConfig({
     store,
     http: $axios,
-    events: new EventBus(store.$events),
     trashedAttribute: 'deletedAt', // default
     typeMap: { 
       posts: Post, 
@@ -394,6 +389,14 @@ Belay fires off a variety of events for most of its operations. Here's a full li
 - **RELATIONS_SAVED**
     * Fires when relationships have been auto-saved
     * Payload: `{ responses }`
+
+Here is an event example:
+    
+```js
+Model.on(Model.SAVED, (payload) => {
+  // do something with the payload
+})
+```    
 
 These events are also available as static properties on the model, e.g. `Model.DESTROYED`
 
