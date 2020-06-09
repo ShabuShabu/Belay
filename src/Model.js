@@ -90,10 +90,6 @@ export class Model {
     if (isEmpty(this.attributes)) {
       throw Exception.propertyDefaultsNotSet(this)
     }
-
-    if (Model?.$config?.autoSaveRelationships === undefined) {
-      Model.$config.autoSaveRelationships = true
-    }
   }
 
   /**
@@ -269,7 +265,7 @@ export class Model {
    */
   syncToStore () {
     if (this.usingStore) {
-      this.store.dispatch('belay/sync', this)
+      this.store.dispatch(`${Model.$config.namespace}/sync`, this)
     }
   }
 
@@ -278,7 +274,7 @@ export class Model {
    */
   removeFromStore () {
     if (this.usingStore) {
-      this.store.dispatch('belay/remove', this)
+      this.store.dispatch(`${Model.$config.namespace}/remove`, this)
     }
   }
 
@@ -1019,7 +1015,18 @@ export class Model {
    */
   static setConfig (config) {
     Model.$config = config
-    Model.$config.events = new Emitter()
+
+    if (Model.$config?.events === undefined) {
+      Model.$config.events = new Emitter()
+    }
+
+    if (Model.$config?.namespace === undefined) {
+      Model.$config.namespace = 'belay'
+    }
+
+    if (Model.$config?.autoSaveRelationships === undefined) {
+      Model.$config.autoSaveRelationships = true
+    }
   }
 }
 
