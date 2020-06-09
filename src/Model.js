@@ -293,7 +293,7 @@ export class Model {
     const events = Array.isArray(event) ? event : [event]
 
     events.forEach(
-        name => Model.$config.events.emit(name, payload)
+      name => Model.$config.events.emit(name, payload)
     )
 
     return this
@@ -1019,7 +1019,6 @@ export class Model {
    */
   static setConfig (config) {
     Model.$config = config
-
     Model.$config.events = new Emitter()
   }
 }

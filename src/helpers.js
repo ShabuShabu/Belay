@@ -4,35 +4,40 @@ import Module from './Module'
 
 /**
  * Helper to set Belay up properly
- * @param Vue
  * @param http
- * @param store
  * @param typeMap
+ * @param store
  */
-export const belay = (Vue, http, store, typeMap) => {
+export const belay = (http, typeMap, store = null) => {
   http.onResponse(data => new Response(data))
 
-  store.registerModule('models', Module, { preserveState: process.client })
-
-  Model.setConfig({
-    store,
+  const config = {
     http,
     typeMap: isFunction(typeMap) ? typeMap() : typeMap
-  })
+  }
 
-  belayVuexEvents()
+  if (store) {
+    config.store = store
+    store.registerModule('models', Module, { preserveState: process.client })
+  }
+
+  Model.setConfig(config)
+
+  if (store) {
+    belayVuexEvents()
+  }
 }
 
 /**
  * Sets up all events to sync the models to Vuex
  */
 export const belayVuexEvents = () => {
-  Model.on(Model.SAVED, ({model}) => model.syncToStore())
-  Model.on(Model.TRASHED, ({model}) => model.syncToStore())
-  Model.on(Model.FETCHED, ({model}) => model.syncToStore())
-  Model.on(Model.DESTROYED, ({model}) => model.removeFromStore())
+  Model.on(Model.SAVED, ({ model }) => model.syncToStore())
+  Model.on(Model.TRASHED, ({ model }) => model.syncToStore())
+  Model.on(Model.FETCHED, ({ model }) => model.syncToStore())
+  Model.on(Model.DESTROYED, ({ model }) => model.removeFromStore())
 
-  Model.on(Model.COLLECTED, ({collection}) => {
+  Model.on(Model.COLLECTED, ({ collection }) => {
     if (collection instanceof Paginator) {
       collection = collection.items
     }

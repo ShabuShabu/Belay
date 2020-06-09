@@ -38,7 +38,7 @@ Set it up in an entry file:
 
 ```js
 import axios from 'axios'
-import { Model, Response, Module } from '@shabushabu/belay'
+import { Model, Response, Module, belayVuexEvents } from '@shabushabu/belay'
 import { Post, Category, Tag } from './Hierarchies'
 import { store } from './store'
 
@@ -59,6 +59,8 @@ Model.setConfig({
     tags: Tag 
   }
 })
+
+belayVuexEvents()
 ```
 
 ### Nuxt.js
@@ -67,23 +69,16 @@ Create a plugin (e.g.: `plugins/belay.js`):
 
 ```js
 import { Post, Category, Tag } from './Hierarchies'
-import { Model, Response } from '@shabushabu/belay'
+import { belay } from '@shabushabu/belay'
 
 export default ({ $axios, store }) => {
-  $axios.onResponse(data => new Response(data))
+  const typeMap = { 
+    posts: Post, 
+    categories: Category, 
+    tags: Tag 
+  }
 
-  store.registerModule('models', Module, { preserveState: process.client })
-
-  Model.setConfig({
-    store,
-    http: $axios,
-    trashedAttribute: 'deletedAt', // default
-    typeMap: { 
-      posts: Post, 
-      categories: Category, 
-      tags: Tag 
-    }
-  })
+  belay($axios, typeMap, store)
 }
 ```
 
