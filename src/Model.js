@@ -252,6 +252,14 @@ export class Model {
   }
 
   /**
+   * Get the event bus
+   * @returns {*}
+   */
+  get events () {
+    return Model.$config.events
+  }
+
+  /**
    * Get the model Vuex instance
    * @returns {*}
    */
@@ -268,11 +276,27 @@ export class Model {
   }
 
   /**
-   * Get the event bus
-   * @returns {*}
+   * Sync the model to Vuex
+   * @private
    */
-  get events () {
-    return Model.$config.events
+  _pushToStore () {
+    if (!this.usingStore) {
+      return
+    }
+
+    this.store.dispatch('models/push', this)
+  }
+
+  /**
+   * Remove the model from Vuex
+   * @private
+   */
+  _removeFromStore () {
+    if (!this.usingStore) {
+      return
+    }
+
+    this.store.dispatch('models/remove', this)
   }
 
   /**
