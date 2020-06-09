@@ -1,5 +1,6 @@
 import { Model, Response } from './Hierarchies'
 import EventBus from './EventBus'
+import Module from './Module'
 import DateCast from './casts/DateCast'
 import CollectionCast from './casts/CollectionCast'
 
@@ -8,5 +9,6 @@ export {
   EventBus,
   DateCast,
   CollectionCast,
-  Response
+  Response,
+  Module
 }
