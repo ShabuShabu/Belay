@@ -3,6 +3,7 @@ import EventBus from './EventBus'
 import Module from './Module'
 import DateCast from './casts/DateCast'
 import CollectionCast from './casts/CollectionCast'
+import { belay } from './helpers'
 
 export {
   Model,
@@ -10,5 +11,6 @@ export {
   DateCast,
   CollectionCast,
   Response,
-  Module
+  Module,
+  belay
 }

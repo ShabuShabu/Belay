@@ -38,7 +38,7 @@ Set it up in an entry file:
 
 ```js
 import axios from 'axios'
-import { Model, Response, EventBus } from '@shabushabu/belay'
+import { Model, Response, EventBus, Module } from '@shabushabu/belay'
 import { Post, Category, Tag } from './Hierarchies'
 import Bus from './event-bus'
 import { store } from './store'
@@ -48,12 +48,14 @@ axios.interceptors.response.use(
   error => Promise.reject(error)
 )
 
+store.registerModule('models', Module, { preserveState: true })
+
 Model.setConfig({
   store,
   http: axios,
   events: new EventBus(Bus),
   trashedAttribute: 'deletedAt', // default
-  typeMap: { 
+  typeMap: {
     posts: Post, 
     categories: Category, 
     tags: Tag 
@@ -73,6 +75,8 @@ import { Model, Response, EventBus } from '@shabushabu/belay'
 export default ({ $axios, store }) => {
   $axios.onResponse(data => new Response(data))
   store.$events = new Vue()
+
+  store.registerModule('models', Module, { preserveState: process.client })
 
   Model.setConfig({
     store,

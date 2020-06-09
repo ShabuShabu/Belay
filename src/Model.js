@@ -86,10 +86,6 @@ export class Model {
       throw Exception.busNotPresent()
     }
 
-    if (Model?.$config?.store === undefined) {
-      throw Exception.vuexNotPresent()
-    }
-
     if (this.constructor.jsonApiType() === '') {
       throw Exception.jsonApiTypeNotSet(this)
     }
@@ -255,13 +251,20 @@ export class Model {
     return Model.$config.http
   }
 
-
   /**
    * Get the model Vuex instance
    * @returns {*}
    */
   get store () {
     return Model.$config.store
+  }
+
+  /**
+   * Check if we use the store
+   * @returns {boolean}
+   */
+  get usingStore () {
+    return Model?.$config?.store === undefined
   }
 
   /**
