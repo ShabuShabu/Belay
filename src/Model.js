@@ -289,7 +289,7 @@ export class Model {
    * @returns {Model}
    * @private
    */
-  _fire (event, payload = {}) {
+  _emit (event, payload = {}) {
     const events = Array.isArray(event) ? event : [event]
 
     events.forEach(
@@ -620,7 +620,7 @@ export class Model {
 
     this._setRelationship(key, model)
 
-    this._fire(Model.ATTACHED, { key, model: this, attached: model })
+    this._emit(Model.ATTACHED, { key, model: this, attached: model })
 
     return this
   }
@@ -637,7 +637,7 @@ export class Model {
 
     this.relationship(key).detach(model)
 
-    this._fire(Model.DETACHED, { key, model: this, detached: model })
+    this._emit(Model.DETACHED, { key, model: this, detached: model })
 
     return this
   }
@@ -733,7 +733,7 @@ export class Model {
 
     const collection = asCollection ? Paginator.hydrate(response.data) : new Paginator(response.data)
 
-    this._fire(Model.COLLECTED, { response, collection })
+    this._emit(Model.COLLECTED, { response, collection })
 
     return collection
   }
@@ -748,7 +748,7 @@ export class Model {
 
     const model = Model.hydrate(response.data)
 
-    this._fire(Model.FETCHED, { model, response })
+    this._emit(Model.FETCHED, { model, response })
 
     return Promise.resolve(model)
   }
@@ -766,12 +766,12 @@ export class Model {
 
     if (this._canBeDestroyed(response)) {
       this.wasDestroyed = true
-      this._fire(Model.DESTROYED, { response, model: this })
+      this._emit(Model.DESTROYED, { response, model: this })
     }
 
     if (!this.wasDestroyed && this._isTrashable() && !this.isTrashed()) {
       this.attribute(this.trashedAttribute, formatISO(new Date()))
-      this._fire(Model.TRASHED, { response, model: this })
+      this._emit(Model.TRASHED, { response, model: this })
     }
 
     return Promise.resolve(response)
@@ -825,7 +825,7 @@ export class Model {
       await this._autoSaveRelationships()
 
       this.isNew = false
-      this._fire([Model.CREATED, Model.SAVED], { response, model: this })
+      this._emit([Model.CREATED, Model.SAVED], { response, model: this })
     }
 
     return Promise.resolve(response)
@@ -845,7 +845,7 @@ export class Model {
     if (response.status === Response.NO_CONTENT) {
       await this._autoSaveRelationships()
 
-      this._fire([Model.UPDATED, Model.SAVED], { response, model: this })
+      this._emit([Model.UPDATED, Model.SAVED], { response, model: this })
     }
 
     return Promise.resolve(response)
@@ -882,7 +882,7 @@ export class Model {
 
     const responses = await Promise.all(calls)
 
-    this._fire(Model.RELATIONS_SAVED, { responses })
+    this._emit(Model.RELATIONS_SAVED, { responses })
 
     return responses
   }

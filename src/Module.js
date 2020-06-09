@@ -13,7 +13,9 @@ export default {
 
   mutations: {
     sync (state, model) {
-      set(state.cache, [model.type, model.id], model.toJSON())
+      if (typeof model.toJSON === 'function') {
+        set(state.cache, [model.type, model.id], model.toJSON())
+      }
     },
 
     remove (state, model) {
@@ -23,18 +25,10 @@ export default {
 
   actions: {
     sync ({ commit }, model) {
-      if (!(model instanceof Model)) {
-        return
-      }
-
       commit('sync', model)
     },
 
     remove ({ commit }, model) {
-      if (!(model instanceof Model)) {
-        return
-      }
-
       commit('remove', model)
     }
   },
