@@ -18,7 +18,7 @@ export const belay = (http, typeMap, store = null) => {
 
   if (store) {
     config.store = store
-    store.registerModule('models', Module, { preserveState: process.client })
+    store.registerModule('belay', Module, { preserveState: process.client })
   }
 
   Model.setConfig(config)

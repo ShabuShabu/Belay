@@ -269,7 +269,7 @@ export class Model {
    */
   syncToStore () {
     if (this.usingStore) {
-      this.store.dispatch('models/sync', this)
+      this.store.dispatch('belay/sync', this)
     }
   }
 
@@ -278,7 +278,7 @@ export class Model {
    */
   removeFromStore () {
     if (this.usingStore) {
-      this.store.dispatch('models/remove', this)
+      this.store.dispatch('belay/remove', this)
     }
   }
 
