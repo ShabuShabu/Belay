@@ -26,33 +26,29 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 
 ## Installation
 
-:bangbang: Well, this will work once Belay has been published to NPM, but this early in the dev process I'll just not bother and use `yarn link`. 
+:bangbang: Well, this will work once Belay has been published to NPM, but this early in the dev process I'll just not bother and use `yarn link`.
 
 ```
 $ yarn add @shabushabu/belay
 ```
 
-In `nuxt.config.js`:
+In `nuxt.config.js` (making sure that the module is above `@nuxtjs/axios`):
 
 ```js
-import { Post, Category, Tag } from './Hierarchies'
-
 export default {
   // ...
 
   modules: [
     // ...
-    '@shabushabu/belay'
+    '@shabushabu/belay',
+    '@nuxtjs/axios',
+    // ...
   ],
 
   belay: {
-    typeMap: { 
-      posts: Post, 
-      categories: Category, 
-      tags: Tag 
-    }
+    hierarchiesLocation: '~/models/Hierarchies' // default value
   },
-  // ...                
+  // ...
 }
 ```
 
@@ -259,8 +255,8 @@ const response = await page.delete()
 
 ### Model Attributes & Relationships
 
-Belay makes quite heavy use of [Proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). 
-These allow us to do some nifty stuff with attributes and relationships without having to explicitly create this functionality on the model. 
+Belay makes quite heavy use of [Proxies](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
+These allow us to do some nifty stuff with attributes and relationships without having to explicitly create this functionality on the model.
 The idea behind Belay is that it always keeps an up-to-date reference of a JSON:API resource in the background. So, when we update a model property Belay actually sets the value of that property on that JSON:API resource.
 
 ```js
@@ -360,12 +356,12 @@ Belay fires off a variety of events for most of its operations. Here's a full li
     * Payload: `{ responses }`
 
 Here is an event example:
-    
+
 ```js
 Model.on(Model.SAVED, (payload) => {
   // do something with the payload
 })
-```    
+```
 
 These events are also available as static properties on the model, e.g. `Model.DESTROYED`
 

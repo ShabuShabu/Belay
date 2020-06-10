@@ -14,6 +14,7 @@
   ],
   "main": "lib/module.js",
   "scripts": {
+    "build": "babel lib/orm -d lib/dist --copy-files",
     "dev": "nuxt example",
     "lint": "eslint --ext .js,.vue .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
@@ -30,8 +31,8 @@
     "uuid": "^7.0.3"
   },
   "devDependencies": {
+    "@babel/cli": "latest",
     "@babel/core": "latest",
-    "@babel/plugin-proposal-class-properties": "latest",
     "@babel/plugin-proposal-throw-expressions": "latest",
     "@babel/preset-env": "latest",
     "@nuxtjs/eslint-config": "latest",

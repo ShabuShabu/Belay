@@ -1,7 +1,7 @@
 import formatISO from 'date-fns/formatISO'
 import parseISO from 'date-fns/parseISO'
-import DateCast from '../lib/casts/DateCast'
-import CollectionCast from '../lib/casts/CollectionCast'
+import DateCast from '../lib/orm/casts/DateCast'
+import CollectionCast from '../lib/orm/casts/CollectionCast'
 
 describe('Casts', () => {
   const castProvider = () => {

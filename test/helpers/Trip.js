@@ -1,4 +1,4 @@
-import DateCast from '../../lib/casts/DateCast'
+import DateCast from '../../lib/orm/casts/DateCast'
 import schema from '../schemas/trip'
 import { Model, User, Stream } from './Hierarchies'
 
