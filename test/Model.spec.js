@@ -21,7 +21,7 @@ describe('Model', () => {
 
     const query = `?include=user&append=likes&fields[${model.type}]=field1,field2&filter[field3]=some,thing&filter[title]=Cool&sort=createdAt&page=3&limit=10`
 
-    expect(model.builder().query()).toEqual(query)
+    expect(model.queryBuilder().query()).toEqual(query)
   })
 
   const modelProvider = (usersOnly = false) => {

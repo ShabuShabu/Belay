@@ -21,6 +21,7 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 ## ToDo
 
 - Add http tests for the builder
+- Add tests for scoped model events and `boot` method
 - Non-existing relationships will have to be saved before the model
 - World domination
 
@@ -44,9 +45,12 @@ export default {
     '@nuxtjs/axios',
     // ...
   ],
-
+  // default values
   belay: {
-    hierarchiesLocation: '~/models/Hierarchies' // default value
+    useStore: true,
+    namespace: 'belay',
+    autoSaveRelationships: true,
+    hierarchiesLocation: '~/models/Hierarchies'
   },
   // ...
 }
@@ -324,46 +328,71 @@ page.detachMedia(media)
 
 Belay fires off a variety of events for most of its operations. Here's a full list:
 
-- **SAVED**
+- **Model.SAVED / saved**
     * Fires when a model was created and updated
     * Payload: `{ response, model }`
-- **CREATED**
+- **Model.CREATED / created**
     * Fires when a model was created
     * Payload: `{ response, model }`
-- **UPDATED**
+- **Model.UPDATED / updated**
     * Fires when a model was updated
     * Payload: `{ response, model }`
-- **TRASHED**
+- **Model.TRASHED / trashed**
     * Fires when a model was trashed
     * Payload: `{ response, model }`
-- **DESTROYED**
+- **Model.DESTROYED / destroyed**
     * Fires when a model was destroyed
     * Payload: `{ response, model }`
-- **FETCHED**
+- **Model.FETCHED / fetched**
     * Fires when a model was retrieved from the API
     * Payload: `{ response, model }`
-- **ATTACHED**
+- **Model.ATTACHED / attached**
     * Fires when a relationship was attached to a model
     * Payload: `{ key, model, attached }`
-- **DETACHED**
+- **Model.DETACHED / detached**
     * Fires when a relationship was detached to a model
     * Payload: `{ key, model, detached }`
-- **COLLECTED**
+- **Model.COLLECTED / collected**
     * Fires when a collection was retrieved
-    * Payload: `{ response, collection }`
-- **RELATIONS_SAVED**
+    * Payload: `{ response, collection, model }`
+- **Model.RELATIONS_SAVED / relationsSaved**
     * Fires when relationships have been auto-saved
-    * Payload: `{ responses }`
+    * Payload: `{ responses, model }`
 
-Here is an event example:
+Here are some event examples, that all do the same thing:
 
 ```js
-Model.on(Model.SAVED, (payload) => {
-  // do something with the payload
-})
+Model.on(Model.SAVED, (payload) => { ... })
+Model.onSaved((payload) => { ... })
+Model.on([Model.CREATED, Model.UPDATED], (payload) => { ... })
 ```
 
-These events are also available as static properties on the model, e.g. `Model.DESTROYED`
+Events can also be scoped to a specific model:
+
+```js
+// Prefixing the event with the model type
+Model.on('pages.saved', (payload) => { ... })
+
+// Setting the event handler on a specific model
+Page.on('saved', (payload) => { ... })
+Page.onSaved((payload) => { ... })
+```
+
+And finally, when setting up your models, you can just override the `boot` method to set up your scoped events:
+
+```js
+import { Model } from '@shabushabu/belay'
+
+export class Page extends Model {
+  ...
+
+  static boot () {
+    this.onSaved((payload) => { ... })
+  }
+
+  ...
+}
+```
 
 ## Builder
 
