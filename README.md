@@ -49,6 +49,7 @@ export default {
   belay: {
     useStore: true,
     namespace: 'belay',
+    useMixinGlobally: false,
     disableStoreEvents: false,
     autoSaveRelationships: true,
     hierarchiesLocation: '~/models/Hierarchies'
@@ -414,6 +415,24 @@ Query parameters can also be passed to the builder:
 
 const response = await Page.where('title', 'Cool').include('user').limit(10).get()
 ```
+
+## Mixin
+
+Belay ships with a mixin that can be used to automatically re-hydrate the models after getting them with `fetch`.
+By default, it isn't enabled globally, but there is an option to do just that. Activate it at your own peril, tho ;)
+Otherwise, you can just add it to the components that need it.
+
+The mixin expects you to follow a certain convention. This is how you declare your models in your components:
+
+```js
+data: () => ({
+  pageModel: new Page()
+})
+```
+
+Basically, it's however you want to name the prop that holds your model, suffixed by `Model`.
+In the case above, the model will then be available as `this.page`. 
+It is your responsibility to ensure that the property does not clash with another prop.
 
 ## :bangbang: Caveats
 
