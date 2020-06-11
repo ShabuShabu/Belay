@@ -49,6 +49,7 @@ export default {
   belay: {
     useStore: true,
     namespace: 'belay',
+    disableStoreEvents: false,
     autoSaveRelationships: true,
     hierarchiesLocation: '~/models/Hierarchies'
   },
@@ -328,34 +329,34 @@ page.detachMedia(media)
 
 Belay fires off a variety of events for most of its operations. Here's a full list:
 
-- **Model.SAVED / saved**
+- **`Model.SAVED` / `savsed`**
     * Fires when a model was created and updated
     * Payload: `{ response, model }`
-- **Model.CREATED / created**
+- **`Model.CREATED` / `created`**
     * Fires when a model was created
     * Payload: `{ response, model }`
-- **Model.UPDATED / updated**
+- **`Model.UPDATED` / `updated`**
     * Fires when a model was updated
     * Payload: `{ response, model }`
-- **Model.TRASHED / trashed**
+- **`Model.TRASHED` / `trashed`**
     * Fires when a model was trashed
     * Payload: `{ response, model }`
-- **Model.DESTROYED / destroyed**
+- **`Model.DESTROYED` / `destroyed`**
     * Fires when a model was destroyed
     * Payload: `{ response, model }`
-- **Model.FETCHED / fetched**
+- **`Model.FETCHED` / `fetched`**
     * Fires when a model was retrieved from the API
     * Payload: `{ response, model }`
-- **Model.ATTACHED / attached**
+- **`Model.ATTACHED` / `attached`**
     * Fires when a relationship was attached to a model
     * Payload: `{ key, model, attached }`
-- **Model.DETACHED / detached**
+- **`Model.DETACHED` / `detached`**
     * Fires when a relationship was detached to a model
     * Payload: `{ key, model, detached }`
-- **Model.COLLECTED / collected**
+- **`Model.COLLECTED` / `collected`**
     * Fires when a collection was retrieved
     * Payload: `{ response, collection, model }`
-- **Model.RELATIONS_SAVED / relationsSaved**
+- **`Model.RELATIONS_SAVED` / `relationsSaved`**
     * Fires when relationships have been auto-saved
     * Payload: `{ responses, model }`
 
