@@ -22,6 +22,7 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 
 - Add http tests for the builder
 - Add tests for scoped model events and `boot` method
+- Add automatic hydration for collections/paginators to mixin
 - Non-existing relationships will have to be saved before the model
 - World domination
 
@@ -438,12 +439,14 @@ The mixin expects you to follow a certain convention. This is how you declare yo
 
 ```js
 data: () => ({
-  pageModel: new Page()
+  pageModel: null,
+  categoriesCollection: null,
+  tagsPaginator: null
 })
 ```
 
-Basically, it's however you want to name the prop that holds your model, suffixed by `Model`.
-In the case above, the model will then be available as `this.page`. 
+Basically, it's however you want to name the prop that holds your model, suffixed by `Model`, `Collection` or `Paginator`.
+In the case above, the model will then be available as `this.page`, the collection as `this.categories` and the paginator as `this.tags`. 
 It is your responsibility to ensure that the property does not clash with another prop.
 
 ## :bangbang: Caveats
