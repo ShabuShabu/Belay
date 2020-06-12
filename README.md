@@ -22,7 +22,8 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 
 - Add http tests for the builder
 - Add tests for scoped model events and `boot` method
-- Add automatic hydration for collections/paginators to mixin
+- Review existing tests with regard to the package being Nuxt-only now
+- Paginator and Collection need to properly implement toJSON for re-hydration
 - Non-existing relationships will have to be saved before the model
 - World domination
 
@@ -431,13 +432,15 @@ const response = await Page.where('title', 'Cool').include('user').limit(10).get
 
 ## Mixin
 
-Belay ships with a mixin that can be used to automatically re-hydrate the models after getting them with `fetch`.
+Belay ships with a mixin (`HydrateResources`) that can be used to automatically re-hydrate the models, collections and paginators after getting them with the [fetch hook](https://nuxtjs.org/api/pages-fetch/).
 By default, it isn't enabled globally, but there is an option to do just that. Activate it at your own peril, tho ;)
 Otherwise, you can just add it to the components that need it.
 
 The mixin expects you to follow a certain convention. This is how you declare your models in your components:
 
 ```js
+mixins: [HydrateResources],
+
 data: () => ({
   pageModel: null,
   categoriesCollection: null,
@@ -445,9 +448,9 @@ data: () => ({
 })
 ```
 
-Basically, it's however you want to name the prop that holds your model, suffixed by `Model`, `Collection` or `Paginator`.
+Basically, it's however you want to name the prop that holds your resource, suffixed by `Model`, `Collection` or `Paginator`.
 In the case above, the model will then be available as `this.page`, the collection as `this.categories` and the paginator as `this.tags`. 
-It is your responsibility to ensure that the property does not clash with another prop.
+It is your responsibility to ensure that the properties do not clash with another prop.
 
 ## :bangbang: Caveats
 
