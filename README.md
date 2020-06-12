@@ -360,6 +360,18 @@ Belay fires off a variety of events for most of its operations. Here's a full li
 - **`Model.RELATIONS_SAVED` / `relationsSaved`**
     * Fires when relationships have been auto-saved
     * Payload: `{ responses, model }`
+- **`Model.RELATIONSHIP_SET` / `relationshipSet`**
+    * Fires when a relationship was set
+    * Payload: `{ key, model, attached }`
+- **`Model.RELATIONSHIP_REMOVED` / `relationshipRemoved`**
+    * Fires when a relationship was removed
+    * Payload: `{ key, model }`
+- **`Model.ATTRIBUTE_SET` / `attributeSet`**
+    * Fires when an attribute was set
+    * Payload: `{ key, model }`
+- **`Model.ATTRIBUTE_REMOVED` / `attributeRemoved`**
+    * Fires when an attribute was removed
+    * Payload: `{ key, model }`
 
 Here are some event examples, that all do the same thing:
 
