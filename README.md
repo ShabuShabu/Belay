@@ -23,7 +23,7 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 - Add http tests for the builder
 - Add tests for scoped model events and `boot` method
 - Review existing tests with regard to the package being Nuxt-only now
-- Paginator and Collection need to properly implement toJSON for re-hydration
+- Add tests for Collection & Paginator hydration
 - Non-existing relationships will have to be saved before the model
 - World domination
 
