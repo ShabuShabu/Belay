@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import EventBus from '../../src/EventBus'
+import Emitter from 'tiny-emitter/dist/tinyemitter'
 import { Model, Response, Category, Gear, Media, Page, Stream, Trip, User } from './Hierarchies'
 
 export const testSetup = (axios, eventBus = true, autoSave = false) => {
@@ -19,7 +18,7 @@ export const testSetup = (axios, eventBus = true, autoSave = false) => {
   }
 
   if (eventBus) {
-    config.events = new EventBus(new Vue())
+    config.events = new Emitter()
   }
 
   Model.setConfig(config)

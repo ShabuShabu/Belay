@@ -3,6 +3,7 @@ import AxiosMock from 'axios-mock-adapter'
 import { m, c } from './responses/responses'
 import { Category, Trip, Stream, Ride, Book, Movie, Paginator } from './helpers/Hierarchies'
 import { testSetup } from './helpers/setup'
+import Collection from '../lib/orm/Collection'
 
 describe('Http', () => {
   const mock = new AxiosMock(testSetup(axios))
@@ -143,6 +144,8 @@ describe('Http', () => {
       ride: Ride,
       movie: Movie
     }
+
+    expect(stream).toBeInstanceOf(Collection)
 
     stream.each((stream) => {
       expect(stream).toBeInstanceOf(types[stream.variant])

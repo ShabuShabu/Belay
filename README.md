@@ -51,7 +51,6 @@ export default {
   belay: {
     useStore: true,
     namespace: 'belay',
-    useMixinGlobally: false,
     disableStoreEvents: false,
     autoSaveRelationships: true,
     hierarchiesLocation: '~/models/Hierarchies'
@@ -430,31 +429,9 @@ Query parameters can also be passed to the builder:
 const response = await Page.where('title', 'Cool').include('user').limit(10).get()
 ```
 
-## Mixin
-
-Belay ships with a mixin (`HydrateResources`) that can be used to automatically re-hydrate the models, collections and paginators after getting them with the [fetch hook](https://nuxtjs.org/api/pages-fetch/).
-By default, it isn't enabled globally, but there is an option to do just that. Activate it at your own peril, tho ;)
-Otherwise, you can just add it to the components that need it.
-
-The mixin expects you to follow a certain convention. This is how you declare your models in your components:
-
-```js
-mixins: [HydrateResources],
-
-data: () => ({
-  pageModel: null,
-  categoriesCollection: null,
-  tagsPaginator: null
-})
-```
-
-Basically, it's however you want to name the prop that holds your resource, suffixed by `Model`, `Collection` or `Paginator`.
-In the case above, the model will then be available as `this.page`, the collection as `this.categories` and the paginator as `this.tags`. 
-It is your responsibility to ensure that the properties do not clash with another prop.
-
 ## :bangbang: Caveats
 
-This package uses [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) quite a bit, so if you only target modern browsers, like  Firefox, Chrome, Safari 10+ and Edge, then you're golden. Not so much if you have to support old and tired browsers like IE. There is a [polyfill](https://github.com/GoogleChrome/proxy-polyfill), but use at your own risk.
+This package uses [sProxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) quite a bit, so if you only target modern browsers, like  Firefox, Chrome, Safari 10+ and Edge, then you're golden. Not so much if you have to support old and tired browsers like IE. There is a [polyfill](https://github.com/GoogleChrome/proxy-polyfill), but use at your own risk.
 
 Belay is still young and while it is tested, there will probs be bugs. I will try to iron them out as I find them, but until there's a v1 release, expect things to go :boom:. Oh, and one more thing, while this package is intended to work perfectly with Nuxt and Vue, I haven't actually gotten round to testing Belay out in a real app yet. Might have to wait for Vue 3 :grimacing:
 

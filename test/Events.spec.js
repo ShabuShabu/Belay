@@ -1,19 +1,15 @@
-import Vue from 'vue'
 import axios from 'axios'
 import AxiosMock from 'axios-mock-adapter'
-import EventBus from '../src/EventBus'
+import Emitter from 'tiny-emitter/dist/tinyemitter'
 import { c, m } from './responses/responses'
 import { Category, Model, Trip, Paginator, Page, Media, Response } from './helpers/Hierarchies'
 import { testSetup } from './helpers/setup'
 
 describe('Model Events', () => {
-  let eventBus
-
   const mock = new AxiosMock(testSetup(axios, false))
 
   beforeEach(() => {
-    eventBus = new Vue()
-    Model.$config.events = new EventBus(eventBus)
+    Model.$config.events = new Emitter()
     mock.reset()
   })
 
@@ -30,13 +26,17 @@ describe('Model Events', () => {
       Model.DETACHED,
       Model.DESTROYED,
       Model.COLLECTED,
-      Model.RELATIONS_SAVED
+      Model.RELATIONS_SAVED,
+      Model.ATTRIBUTE_SET,
+      Model.ATTRIBUTE_REMOVED,
+      Model.RELATIONSHIP_SET,
+      Model.RELATIONSHIP_REMOVED
     ]
 
     allEvents.filter(
       event => !events.includes(event)
     ).forEach((event) => {
-      eventBus.$on(event, () => {
+      Model.on(event, () => {
         throw new Error(`Failure: event [${event}] fired `)
       })
     })
@@ -53,8 +53,8 @@ describe('Model Events', () => {
       expect(response.status).toEqual(204)
     }
 
-    eventBus.$on(Model.SAVED, handler)
-    eventBus.$on(Model.UPDATED, handler)
+    Model.on(Model.SAVED, handler)
+    Model.on(Model.UPDATED, handler)
 
     ensureNoOtherEventsFireExcept([Model.SAVED, Model.UPDATED])
 
@@ -71,8 +71,8 @@ describe('Model Events', () => {
       expect(response.status).toEqual(201)
     }
 
-    eventBus.$on(Model.SAVED, handler)
-    eventBus.$on(Model.CREATED, handler)
+    Model.on(Model.SAVED, handler)
+    Model.on(Model.CREATED, handler)
 
     ensureNoOtherEventsFireExcept([Model.SAVED, Model.CREATED])
 
@@ -85,7 +85,7 @@ describe('Model Events', () => {
 
     mock.onDelete(`http://localhost/categories/${id}`).reply(204)
 
-    eventBus.$on(Model.DESTROYED, ({ model, response }) => {
+    Model.on(Model.DESTROYED, ({ model, response }) => {
       expect(response).toBeInstanceOf(Response)
       expect(model).toBeInstanceOf(Category)
       expect(response.status).toEqual(204)
@@ -102,7 +102,7 @@ describe('Model Events', () => {
 
     mock.onDelete(`http://localhost/trips/${id}`).reply(204)
 
-    eventBus.$on(Model.TRASHED, ({ model, response }) => {
+    Model.on(Model.TRASHED, ({ model, response }) => {
       expect(response).toBeInstanceOf(Response)
       expect(model).toBeInstanceOf(Trip)
       expect(response.status).toEqual(204)
@@ -119,7 +119,7 @@ describe('Model Events', () => {
 
     mock.onGet(`http://localhost/categories/${id}`).reply(200, m.categories)
 
-    eventBus.$on(Model.FETCHED, ({ model, response }) => {
+    Model.on(Model.FETCHED, ({ model, response }) => {
       expect(response).toBeInstanceOf(Response)
       expect(model).toBeInstanceOf(Category)
       expect(model.id).toEqual(id)
@@ -134,7 +134,7 @@ describe('Model Events', () => {
   test('it ensures the COLLECTED event is fired', async () => {
     mock.onGet('http://localhost/categories').reply(200, c.categories)
 
-    eventBus.$on(Model.COLLECTED, ({ collection, response }) => {
+    Model.on(Model.COLLECTED, ({ collection, response }) => {
       expect(response).toBeInstanceOf(Response)
       expect(collection).toBeInstanceOf(Paginator)
       expect(response.status).toEqual(200)
@@ -149,13 +149,13 @@ describe('Model Events', () => {
     const page = new Page(m.pages)
     const media = new Media(m.media)
 
-    eventBus.$on(Model.ATTACHED, ({ key, model, attached }) => {
+    Model.on(Model.ATTACHED, ({ key, model, attached }) => {
       expect(key).toEqual('media')
       expect(model.id).toEqual(page.id)
       expect(media.id).toEqual(attached.id)
     })
 
-    eventBus.$on(Model.DETACHED, ({ key, model, detached }) => {
+    Model.on(Model.DETACHED, ({ key, model, detached }) => {
       expect(key).toEqual('media')
       expect(model.id).toEqual(page.id)
       expect(media.id).toEqual(detached.id)
@@ -173,7 +173,7 @@ describe('Model Events', () => {
 
     mock.onPut(`http://localhost/pages/${page.id}`).reply(204)
 
-    eventBus.$on(Model.RELATIONS_SAVED, ({ responses }) => {
+    Model.on(Model.RELATIONS_SAVED, ({ responses }) => {
       expect(responses.length).toEqual(1)
     })
 
@@ -182,8 +182,8 @@ describe('Model Events', () => {
       expect(model.id).toEqual(page.id)
     }
 
-    eventBus.$on(Model.UPDATED, handler)
-    eventBus.$on(Model.SAVED, handler)
+    Model.on(Model.UPDATED, handler)
+    Model.on(Model.SAVED, handler)
 
     ensureNoOtherEventsFireExcept([
       Model.RELATIONS_SAVED, // we're mainly testing this event
