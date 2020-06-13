@@ -37,7 +37,7 @@
     "@babel/preset-env": "latest",
     "@nuxtjs/module-test-utils": "latest",
     "axios-mock-adapter": "latest",
-    "babel-eslint": "11.0.0-beta.2",
+    "babel-eslint": "latest",
     "babel-jest": "latest",
     "eslint": "latest",
     "husky": "latest",

@@ -24,6 +24,7 @@ An active-record(ish) implementation for a [JSON:API](https://jsonapi.org/) that
 - Add tests for scoped model events and `boot` method
 - Review existing tests with regard to the package being Nuxt-only now
 - Add tests for Collection & Paginator hydration
+- Allow for mixins to be set on the model (this.constructor.prototype or this.prototype ? / in `boot` method ?)
 - Non-existing relationships will have to be saved before the model
 - World domination
 
@@ -408,6 +409,52 @@ export class Page extends Model {
   ...
 }
 ```
+
+### In your components...
+
+Belay comes with a little helper method (`mapResourceProps`) that allows you to re-hydrate your models semi-automatically after you got them from within the new `fetch` hook.
+
+```js
+import { mapResourceProps } from '@shabushabu/belay'
+import { Page } from '@/models/Hierarchies'
+
+/**
+ * @property {Page} pageModel
+ */
+export default {
+  async fetch () {
+    this.page = await Page.find(this.$route.params.slug)
+  },
+
+  data: () => ({
+    page: new Page()
+  }),
+
+  computed: {
+    ...mapResourceProps({
+      page: Page
+    })
+  }
+}
+```
+
+`this.page` gets turned into a regular POJO with SSR, which is obviously not in our best interest. So, the helper dynamically adds the 
+relevant computed properties. In this case this would be `this.pageModel`, but it is also possible for collections and paginators.
+
+```js
+import { mapResourceProps, Paginator, Collection } from '@shabushabu/belay'
+
+...
+
+computed: {
+  ...mapResourceProps({
+    pages: Paginator, // this.pagesPaginator
+    categories: Collection // this.categoriesCollection
+  })
+}
+```
+
+It is your responsibility to ensure that the dynamically generated props do not clash with any of your other props.
 
 ## Builder
 
