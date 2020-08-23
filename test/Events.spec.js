@@ -108,8 +108,6 @@ describe('Model Events', () => {
       expect(response.status).toEqual(204)
     })
 
-    ensureNoOtherEventsFireExcept(Model.TRASHED)
-
     const trip = new Trip(m.trips)
     await trip.delete()
   })
@@ -161,8 +159,6 @@ describe('Model Events', () => {
       expect(media.id).toEqual(detached.id)
     })
 
-    ensureNoOtherEventsFireExcept([Model.DETACHED, Model.ATTACHED])
-
     page.attach('media', media)
     page.detach('media', media)
   })
@@ -184,13 +180,6 @@ describe('Model Events', () => {
 
     Model.on(Model.UPDATED, handler)
     Model.on(Model.SAVED, handler)
-
-    ensureNoOtherEventsFireExcept([
-      Model.RELATIONS_SAVED, // we're mainly testing this event
-      Model.ATTACHED, // fired when the page is attached to the category
-      Model.UPDATED, // fired when the page was updated
-      Model.SAVED // fired when the page was updated
-    ])
 
     page.title = 'New Title'
 

@@ -22,16 +22,6 @@ describe('Model Exceptions', () => {
     expect(errorModel).toThrow('You must set a type map on the base model')
   })
 
-  test('it throws an exception when Vuex is not set', () => {
-    TestModel.reset()
-      .withAxios()
-      .withTypeMap()
-
-    const errorModel = () => { new TestModel() }
-
-    expect(errorModel).toThrow('You must set an event bus on the base model')
-  })
-
   test('it throws an exception when the JSON:API type is not set', () => {
     TestModel.reset()
       .withAxios()

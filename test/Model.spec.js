@@ -186,7 +186,7 @@ describe('Model', () => {
     expect(model.user.id).toEqual(m.users.data.id)
   })
 
-  test('it ensures toJSON() filtering works', () => {
+  test('it ensures toJsonApi() filtering works', () => {
     const user = new User(m.users)
 
     expect(user.localAttributes).toEqual([
@@ -200,7 +200,7 @@ describe('Model', () => {
       expect(get(user.resource.data, path)).not.toBeUndefined()
     })
 
-    const filtered = user.toJSON()
+    const filtered = user.toJsonApi()
 
     user.localAttributes.forEach((path) => {
       expect(get(filtered.data, path)).toBeUndefined()

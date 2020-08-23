@@ -18,12 +18,6 @@ describe('Paginator', () => {
     })
   })
 
-  test('it throws an error from an invalid response', () => {
-    const errorModel = () => { new Paginator() }
-
-    expect(errorModel).toThrow('Invalid json:api response passed to paginator')
-  })
-
   test('it allows for links to be retrieved by proxy', () => {
     const paginator = new Paginator(c.categories)
 
