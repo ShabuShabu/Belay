@@ -31,19 +31,19 @@
     "uuid": "^7.0.3"
   },
   "devDependencies": {
-    "@babel/cli": "latest",
-    "@babel/core": "latest",
-    "@babel/plugin-proposal-throw-expressions": "latest",
-    "@babel/preset-env": "latest",
-    "@nuxtjs/module-test-utils": "latest",
-    "axios-mock-adapter": "latest",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-throw-expressions": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@nuxtjs/module-test-utils": "^1.6.3",
+    "axios-mock-adapter": "^1.18.2",
     "babel-eslint": "latest",
-    "babel-jest": "latest",
-    "eslint": "latest",
+    "babel-jest": "^26.3.0",
+    "eslint": "^7.7.0",
     "husky": "latest",
-    "jest": "latest",
-    "nuxt-edge": "latest",
-    "standard-version": "latest"
+    "jest": "^26.4.2",
+    "nuxt-edge": "^2.14.4-26635712.5e9d759d",
+    "standard-version": "^9.0.0"
   },
   "publishConfig": {
     "access": "public"
