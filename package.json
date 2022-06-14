@@ -28,7 +28,7 @@
     "lodash": "^4.17.19",
     "qs": "^6.9.3",
     "tiny-emitter": "^2.1.0",
-    "uuid": "^7.0.3"
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
